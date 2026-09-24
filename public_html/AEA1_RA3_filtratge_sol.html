@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solucions · Filtratge i ordenació — MP0484</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+  <style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:#f7f5f0; --card:#ffffff; --ink:#1c1917; --ink-2:#57534e; --ink-3:#a8a29e;
+  --border:#e7e5e4; --accent:#9a3412; --accent-mid:#c2410c; --accent-bg:#fff7ed; --accent-bdr:#fed7aa;
+  --blue:#1e40af; --blue-bg:#eff6ff; --blue-bdr:#bfdbfe;
+  --green:#166534; --green-bg:#f0fdf4; --green-bdr:#bbf7d0;
+  --red:#991b1b; --red-bg:#fef2f2; --red-bdr:#fecaca;
+  --code-bg:#1e293b; --code-text:#e2e8f0; --r:10px; --r-sm:6px;
+}
+body { font-family:'DM Sans',system-ui,sans-serif; background:var(--bg); color:var(--ink); line-height:1.7; font-size:16px; }
+.merce-top { height:5px; background:linear-gradient(90deg,#9a3412 0%,#c2410c 50%,#9a3412 100%); }
+.site-head { background:var(--card); border-bottom:1px solid var(--border); padding:0 24px; }
+.head-inner { max-width:900px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; height:56px; }
+.brand { text-decoration:none; display:flex; flex-direction:column; }
+.brand-mark { font-family:'DM Serif Display',serif; font-size:1.1rem; color:var(--ink); }
+.brand-sub { font-size:11px; color:var(--ink-3); letter-spacing:.04em; }
+.head-course { font-size:13px; color:var(--ink-2); }
+.wrap { max-width:900px; margin:0 auto; padding:24px 24px 80px; }
+.sol-header { margin-bottom:36px; padding-bottom:24px; border-bottom:1.5px solid var(--border); }
+.sol-title { font-family:'DM Serif Display',Georgia,serif; font-size:2rem; margin-bottom:6px; }
+.sol-sub { font-size:14px; color:var(--ink-2); margin-bottom:14px; }
+.badge { font-size:11px; font-weight:600; padding:3px 11px; border-radius:20px; letter-spacing:.05em; text-transform:uppercase; display:inline-block; }
+.b-sol { background:#1e40af; color:#fff; }
+.back-link { display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600;
+  color:var(--accent); text-decoration:none; padding:7px 14px;
+  border:1.5px solid var(--accent-bdr); border-radius:var(--r-sm);
+  background:var(--accent-bg); transition:background .12s; }
+.back-link:hover { background:var(--accent-mid); color:#fff; border-color:var(--accent-mid); }
+.exercise { margin-bottom:32px; padding-bottom:32px; border-bottom:1px solid var(--border); scroll-margin-top:20px; }
+.exercise:last-child { margin-bottom:0; padding-bottom:0; border-bottom:none; }
+.ex-head { display:flex; align-items:flex-start; gap:12px; margin-bottom:12px; }
+.ex-num { min-width:30px; height:30px; background:var(--accent-mid); color:#fff; border-radius:50%;
+  display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600; flex-shrink:0; }
+.ex-name { font-weight:600; font-size:15px; color:var(--ink); }
+.ex-enunciat { font-size:14px; color:var(--ink); margin-bottom:14px; line-height:1.6; }
+.ex-enunciat code { font-family:'JetBrains Mono',monospace; font-size:12px; background:var(--accent-bg); padding:1px 6px; border-radius:3px; color:var(--accent); }
+.ri-btn { display:inline-flex; align-items:center; gap:6px; padding:6px 15px;
+  border:1.5px solid var(--accent-bdr); border-radius:var(--r-sm);
+  background:var(--accent-bg); color:var(--accent); cursor:pointer;
+  font-size:12px; font-family:'DM Sans',sans-serif; font-weight:600;
+  transition:background .12s,color .12s,border-color .12s; }
+.ri-btn:hover { background:var(--accent-mid); color:#fff; border-color:var(--accent-mid); }
+.ri-ans { display:none; margin-top:10px; padding:16px 18px; background:var(--accent-bg); border-radius:var(--r-sm); }
+.ri-ans.show { display:block; }
+.ri-ans-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--accent-mid); margin-bottom:8px; }
+.ri-note { font-size:13px; color:var(--ink-2); margin-top:10px; line-height:1.55; }
+.sql-out { font-family:'JetBrains Mono',monospace; font-size:13px; background:var(--code-bg);
+  color:var(--code-text); padding:16px 20px; border-radius:var(--r-sm);
+  line-height:1.8; white-space:pre; display:block; overflow-x:auto; }
+.site-foot { border-top:1px solid var(--border); padding:20px 24px; margin-top:48px; }
+.foot-inner { max-width:900px; margin:0 auto; display:flex; justify-content:space-between;
+  font-size:12px; color:var(--ink-3); flex-wrap:wrap; gap:8px; }
+.kw { color:#fbbf24; font-weight:500; }
+.fn { color:#a78bfa; }
+.str { color:#4ade80; }
+.num { color:#f472b6; }
+.cmt { color:#64748b; font-style:italic; }
+</style>
+</head>
+<body>
+<div class="merce-top"></div>
+<header class="site-head">
+  <div class="head-inner">
+    <a class="brand" href="index.html"><span class="brand-mark">La Mercè</span><span class="brand-sub">Formació Professional</span></a>
+    <div class="head-course">MP0484 · Bases de dades · DAW</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="sol-header">
+    <div style="margin-bottom:14px">
+      <a class="back-link" href="AEA1_RA3_consultes_simples.html">&#8592; Tornar al document</a>
+    </div>
+    <span class="badge b-sol">SOLUCIONS</span>
+    <h1 class="sol-title" style="margin-top:10px">Exercicis — Filtratge i ordenació</h1>
+    <p class="sol-sub">WHERE · BETWEEN · IN · LIKE · IS NULL · ORDER BY · BD HR d'Oracle</p>
+  </div>
+
+  <div id="ex-body"></div>
+</div>
+
+<footer class="site-foot">
+  <div class="foot-inner">
+    <span>Institut La Mercè · Formació Professional</span>
+    <span>Cicle DAW · MP0484 Bases de dades · Curs 2025–2026</span>
+  </div>
+</footer>
+
+<script>
+
+function cSQL(t){
+  t=t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  t=t.replace(/(--[^\n]*)/g,'<span class="cmt">$1</span>');
+  t=t.replace(/('[^']*')/g,'<span class="str">$1</span>');
+  t=t.replace(/\b(\d+\.?\d*)\b/g,'<span class="num">$1</span>');
+  t=t.replace(/\b(SELECT|FROM|WHERE|AND|OR|NOT|IN|LIKE|BETWEEN|IS|NULL|ORDER\s+BY|GROUP\s+BY|HAVING|DISTINCT|AS|ASC|DESC|CASE|WHEN|THEN|ELSE|END|NOT\s+IN|NOT\s+BETWEEN|NOT\s+LIKE)\b/gi,'<span class="kw">$1</span>');
+  t=t.replace(/\b(COUNT|SUM|AVG|MAX|MIN|ROUND|TRUNC|MOD|UPPER|LOWER|INITCAP|SUBSTR|LENGTH|INSTR|LPAD|RPAD|TRIM|NVL|NVL2|NULLIF|COALESCE|TO_CHAR|TO_DATE|TO_NUMBER|SYSDATE|MONTHS_BETWEEN|ADD_MONTHS|NEXT_DAY|LAST_DAY|DECODE|DUAL)\b/gi,'<span class="fn">$1</span>');
+  return t;
+}
+function reveal(btn,id){document.getElementById(id).classList.add('show');btn.style.display='none';}
+
+// Obrir i fer scroll a l'exercici de l'àncora
+function openFromHash() {
+  const hash = location.hash.slice(1);
+  if (!hash) return;
+  const target = document.getElementById(hash);
+  if (!target) return;
+  const btn = target.querySelector('.ri-btn');
+  const ans = target.querySelector('.ri-ans');
+  if (btn && ans) { ans.classList.add('show'); btn.style.display='none'; }
+  setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+}
+window.addEventListener('load', openFromHash);
+window.addEventListener('hashchange', openFromHash);
+
+
+const DATA = [
+  {n:1, txt:'Mostra el cognom i el salari dels empleats que guanyen més de 12.000 €.',
+   sol:`SELECT last_name, salary\nFROM   employees\nWHERE  salary > 12000;`},
+  {n:2, txt:'Mostra el cognom i el número de departament de l\'empleat amb ID 176.',
+   sol:`SELECT last_name, department_id\nFROM   employees\nWHERE  employee_id = 176;`},
+  {n:3, txt:'Mostra el cognom i el salari dels empleats amb salari fora del rang 5.000–12.000.',
+   sol:`SELECT last_name, salary\nFROM   employees\nWHERE  salary NOT BETWEEN 5000 AND 12000;`,
+   note:'NOT BETWEEN és equivalent a salary < 5000 OR salary > 12000.'},
+  {n:4, txt:'Mostra el cognom, JOB_ID i data de contractació dels empleats amb cognom Matos o Taylor. Ordena per data de contractació ascendent.',
+   sol:`SELECT last_name, job_id, hire_date\nFROM   employees\nWHERE  last_name IN ('Matos', 'Taylor')\nORDER BY hire_date;`},
+  {n:5, txt:'Mostra el cognom i el departament dels empleats dels departaments 20 o 50, ordenats alfabèticament pel cognom.',
+   sol:`SELECT last_name, department_id\nFROM   employees\nWHERE  department_id IN (20, 50)\nORDER BY last_name ASC;`},
+  {n:6, txt:'Mostra el cognom (com <em>Employee</em>) i el salari (com <em>Monthly Salary</em>) dels empleats amb salari entre 5.000 i 12.000 dels departaments 20 o 50.',
+   sol:`SELECT last_name "Employee", salary "Monthly Salary"\nFROM   employees\nWHERE  salary BETWEEN 5000 AND 12000\n  AND  department_id IN (20, 50);`},
+  {n:7, txt:'Mostra el cognom i la data de contractació de tots els empleats contractats l\'any 2004.',
+   sol:`SELECT last_name, hire_date\nFROM   employees\nWHERE  hire_date LIKE '%04';`,
+   note:'El format de data Oracle per defecte és DD-MON-YY, per tant l\'any s\'emmagatzema com a 2 dígits al final.'},
+  {n:8, txt:'Mostra el cognom i el JOB_ID de tots els empleats sense supervisor.',
+   sol:`SELECT last_name, job_id\nFROM   employees\nWHERE  manager_id IS NULL;`,
+   note:'Sempre cal usar IS NULL i mai = NULL per comparar amb el valor nul.'},
+  {n:9, txt:'Mostra el cognom, salari i comissió dels empleats que perceben comissió. Ordena descendent per salari i comissió usant la posició numèrica de la columna.',
+   sol:`SELECT last_name, salary, commission_pct\nFROM   employees\nWHERE  commission_pct IS NOT NULL\nORDER BY 2 DESC, 3 DESC;`,
+   note:'ORDER BY 2 significa "ordena per la columna 2 del SELECT", en aquest cas SALARY.'},
+  {n:10, txt:'Mostra el cognom i el salari dels empleats que guanyen més d\'una quantitat introduïda per l\'usuari.',
+   sol:`SELECT last_name, salary\nFROM   employees\nWHERE  salary > &sal_amt;`,
+   note:'La variable de substitució &sal_amt mostra un diàleg a SQL*Plus/SQL Developer. Introdueix 12000 com a prova.'},
+  {n:11, txt:'Mostra l\'ID, cognom, salari i departament dels empleats d\'un supervisor introduït per l\'usuari. Ordena per una columna també a triar per l\'usuari.',
+   sol:`SELECT employee_id, last_name, salary, department_id\nFROM   employees\nWHERE  manager_id = &mgr_num\nORDER BY &order_col;`,
+   note:'Prova amb manager_id=103 (order by last_name), 108 (order by salary), 124 (order by employee_id).'},
+  {n:12, txt:'Mostra els cognoms dels empleats la tercera lletra dels quals sigui una "a".',
+   sol:`SELECT last_name\nFROM   employees\nWHERE  last_name LIKE '__a%';`,
+   note:'Dos guions baixos __ representen exactament dos caràcters qualsevol abans de la "a".'},
+  {n:13, txt:'Mostra els cognoms dels empleats que tinguin una "a" i una "e" al seu cognom.',
+   sol:`SELECT last_name\nFROM   employees\nWHERE  last_name LIKE '%a%'\n  AND  last_name LIKE '%e%';`},
+  {n:14, txt:'Mostra cognom, càrrec i salari dels empleats que siguin SA_REP o ST_CLERK i el salari dels quals no sigui 2.500, 3.500 ni 7.000.',
+   sol:`SELECT last_name, job_id, salary\nFROM   employees\nWHERE  job_id IN ('SA_REP', 'ST_CLERK')\n  AND  salary NOT IN (2500, 3500, 7000);`},
+  {n:15, txt:'Mostra el cognom (com <em>Employee</em>), salari (com <em>Monthly Salary</em>) i comissió dels empleats amb comissió del 20%.',
+   sol:`SELECT last_name "Employee", salary "Monthly Salary",\n       commission_pct\nFROM   employees\nWHERE  commission_pct = .20;`}
+];
+
+const TOPIC = 't2';
+
+DATA.forEach(ex => {
+  const c = document.getElementById('ex-body');
+  const div = document.createElement('div');
+  div.className = 'exercise';
+  div.id = TOPIC + '-ex' + ex.n;
+  const note = ex.note ? '<div class="ri-note">'+ex.note+'</div>' : '';
+  div.innerHTML =
+    '<div class="ex-head">' +
+      '<div class="ex-num">' + ex.n + '</div>' +
+      '<div><div class="ex-name">Exercici ' + ex.n + '</div></div>' +
+    '</div>' +
+    '<div class="ex-enunciat">' + ex.txt + '</div>' +
+    '<button class="ri-btn" onclick="reveal(this,\'ans_' + TOPIC + '_' + ex.n + '\')">&#9654; Veure solució</button>' +
+    '<div class="ri-ans" id="ans_' + TOPIC + '_' + ex.n + '">' +
+      '<div class="ri-ans-label">Solució</div>' +
+      '<code class="sql-out" id="sql_t2_' + ex.n + '"></code>' +
+      note +
+    '</div>';
+  c.appendChild(div);
+  const sqlEl = div.querySelector('#sql_t2_' + ex.n);
+  if (sqlEl) sqlEl.innerHTML = cSQL(ex.sol);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solucions · Conversió i expressions condicionals — MP0484</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+  <style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:#f7f5f0; --card:#ffffff; --ink:#1c1917; --ink-2:#57534e; --ink-3:#a8a29e;
+  --border:#e7e5e4; --accent:#9a3412; --accent-mid:#c2410c; --accent-bg:#fff7ed; --accent-bdr:#fed7aa;
+  --blue:#1e40af; --blue-bg:#eff6ff; --blue-bdr:#bfdbfe;
+  --green:#166534; --green-bg:#f0fdf4; --green-bdr:#bbf7d0;
+  --red:#991b1b; --red-bg:#fef2f2; --red-bdr:#fecaca;
+  --code-bg:#1e293b; --code-text:#e2e8f0; --r:10px; --r-sm:6px;
+}
+body { font-family:'DM Sans',system-ui,sans-serif; background:var(--bg); color:var(--ink); line-height:1.7; font-size:16px; }
+.merce-top { height:5px; background:linear-gradient(90deg,#9a3412 0%,#c2410c 50%,#9a3412 100%); }
+.site-head { background:var(--card); border-bottom:1px solid var(--border); padding:0 24px; }
+.head-inner { max-width:900px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; height:56px; }
+.brand { text-decoration:none; display:flex; flex-direction:column; }
+.brand-mark { font-family:'DM Serif Display',serif; font-size:1.1rem; color:var(--ink); }
+.brand-sub { font-size:11px; color:var(--ink-3); letter-spacing:.04em; }
+.head-course { font-size:13px; color:var(--ink-2); }
+.wrap { max-width:900px; margin:0 auto; padding:24px 24px 80px; }
+.sol-header { margin-bottom:36px; padding-bottom:24px; border-bottom:1.5px solid var(--border); }
+.sol-title { font-family:'DM Serif Display',Georgia,serif; font-size:2rem; margin-bottom:6px; }
+.sol-sub { font-size:14px; color:var(--ink-2); margin-bottom:14px; }
+.badge { font-size:11px; font-weight:600; padding:3px 11px; border-radius:20px; letter-spacing:.05em; text-transform:uppercase; display:inline-block; }
+.b-sol { background:#1e40af; color:#fff; }
+.back-link { display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600;
+  color:var(--accent); text-decoration:none; padding:7px 14px;
+  border:1.5px solid var(--accent-bdr); border-radius:var(--r-sm);
+  background:var(--accent-bg); transition:background .12s; }
+.back-link:hover { background:var(--accent-mid); color:#fff; border-color:var(--accent-mid); }
+.exercise { margin-bottom:32px; padding-bottom:32px; border-bottom:1px solid var(--border); scroll-margin-top:20px; }
+.exercise:last-child { margin-bottom:0; padding-bottom:0; border-bottom:none; }
+.ex-head { display:flex; align-items:flex-start; gap:12px; margin-bottom:12px; }
+.ex-num { min-width:30px; height:30px; background:var(--accent-mid); color:#fff; border-radius:50%;
+  display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600; flex-shrink:0; }
+.ex-name { font-weight:600; font-size:15px; color:var(--ink); }
+.ex-enunciat { font-size:14px; color:var(--ink); margin-bottom:14px; line-height:1.6; }
+.ex-enunciat code { font-family:'JetBrains Mono',monospace; font-size:12px; background:var(--accent-bg); padding:1px 6px; border-radius:3px; color:var(--accent); }
+.ri-btn { display:inline-flex; align-items:center; gap:6px; padding:6px 15px;
+  border:1.5px solid var(--accent-bdr); border-radius:var(--r-sm);
+  background:var(--accent-bg); color:var(--accent); cursor:pointer;
+  font-size:12px; font-family:'DM Sans',sans-serif; font-weight:600;
+  transition:background .12s,color .12s,border-color .12s; }
+.ri-btn:hover { background:var(--accent-mid); color:#fff; border-color:var(--accent-mid); }
+.ri-ans { display:none; margin-top:10px; padding:16px 18px; background:var(--accent-bg); border-radius:var(--r-sm); }
+.ri-ans.show { display:block; }
+.ri-ans-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--accent-mid); margin-bottom:8px; }
+.ri-note { font-size:13px; color:var(--ink-2); margin-top:10px; line-height:1.55; }
+.sql-out { font-family:'JetBrains Mono',monospace; font-size:13px; background:var(--code-bg);
+  color:var(--code-text); padding:16px 20px; border-radius:var(--r-sm);
+  line-height:1.8; white-space:pre; display:block; overflow-x:auto; }
+.site-foot { border-top:1px solid var(--border); padding:20px 24px; margin-top:48px; }
+.foot-inner { max-width:900px; margin:0 auto; display:flex; justify-content:space-between;
+  font-size:12px; color:var(--ink-3); flex-wrap:wrap; gap:8px; }
+.kw { color:#fbbf24; font-weight:500; }
+.fn { color:#a78bfa; }
+.str { color:#4ade80; }
+.num { color:#f472b6; }
+.cmt { color:#64748b; font-style:italic; }
+</style>
+</head>
+<body>
+<div class="merce-top"></div>
+<header class="site-head">
+  <div class="head-inner">
+    <a class="brand" href="index.html"><span class="brand-mark">La Mercè</span><span class="brand-sub">Formació Professional</span></a>
+    <div class="head-course">MP0484 · Bases de dades · DAW</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="sol-header">
+    <div style="margin-bottom:14px">
+      <a class="back-link" href="AEA1_RA3_consultes_simples.html">&#8592; Tornar al document</a>
+    </div>
+    <span class="badge b-sol">SOLUCIONS</span>
+    <h1 class="sol-title" style="margin-top:10px">Exercicis — Conversió i expressions condicionals</h1>
+    <p class="sol-sub">TO_CHAR · NVL · DECODE · CASE · BD HR d'Oracle</p>
+  </div>
+
+  <div id="ex-body"></div>
+</div>
+
+<footer class="site-foot">
+  <div class="foot-inner">
+    <span>Institut La Mercè · Formació Professional</span>
+    <span>Cicle DAW · MP0484 Bases de dades · Curs 2025–2026</span>
+  </div>
+</footer>
+
+<script>
+
+function cSQL(t){
+  t=t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  t=t.replace(/(--[^\n]*)/g,'<span class="cmt">$1</span>');
+  t=t.replace(/('[^']*')/g,'<span class="str">$1</span>');
+  t=t.replace(/\b(\d+\.?\d*)\b/g,'<span class="num">$1</span>');
+  t=t.replace(/\b(SELECT|FROM|WHERE|AND|OR|NOT|IN|LIKE|BETWEEN|IS|NULL|ORDER\s+BY|GROUP\s+BY|HAVING|DISTINCT|AS|ASC|DESC|CASE|WHEN|THEN|ELSE|END|NOT\s+IN|NOT\s+BETWEEN|NOT\s+LIKE)\b/gi,'<span class="kw">$1</span>');
+  t=t.replace(/\b(COUNT|SUM|AVG|MAX|MIN|ROUND|TRUNC|MOD|UPPER|LOWER|INITCAP|SUBSTR|LENGTH|INSTR|LPAD|RPAD|TRIM|NVL|NVL2|NULLIF|COALESCE|TO_CHAR|TO_DATE|TO_NUMBER|SYSDATE|MONTHS_BETWEEN|ADD_MONTHS|NEXT_DAY|LAST_DAY|DECODE|DUAL)\b/gi,'<span class="fn">$1</span>');
+  return t;
+}
+function reveal(btn,id){document.getElementById(id).classList.add('show');btn.style.display='none';}
+
+// Obrir i fer scroll a l'exercici de l'àncora
+function openFromHash() {
+  const hash = location.hash.slice(1);
+  if (!hash) return;
+  const target = document.getElementById(hash);
+  if (!target) return;
+  const btn = target.querySelector('.ri-btn');
+  const ans = target.querySelector('.ri-ans');
+  if (btn && ans) { ans.classList.add('show'); btn.style.display='none'; }
+  setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+}
+window.addEventListener('load', openFromHash);
+window.addEventListener('hashchange', openFromHash);
+
+
+const DATA = [
+  {n:1, txt:'Genera un informe amb el format: <em>"cognom earns $salari monthly but wants $salari×3."</em> Etiqueta la columna <em>Dream Salaries</em>.',
+   sol:`SELECT last_name || ' earns '\n       || TO_CHAR(salary, 'fm$99,999.00')\n       || ' monthly but wants '\n       || TO_CHAR(salary * 3, 'fm$99,999.00')\n       || '.' "Dream Salaries"\nFROM   employees;`,
+   note:'El prefix fm elimina els espais de relleno que TO_CHAR afegeix per defecte.'},
+  {n:2, txt:'Mostra el cognom, data de contractació i data de revisió (primer dilluns 6 mesos després de la contractació, amb format "Day, the DDth of Month, YYYY"). Etiqueta REVIEW.',
+   sol:`SELECT last_name, hire_date,\n       TO_CHAR(NEXT_DAY(ADD_MONTHS(hire_date, 6), 'MONDAY'),\n               'fmDay, "the" Ddspth "of" Month, YYYY') REVIEW\nFROM   employees;`,
+   note:'NEXT_DAY retorna el proper dia de la setmana especificat. ADD_MONTHS afegeix mesos a una data.'},
+  {n:3, txt:'Mostra el cognom, data de contractació i dia de la setmana en que va començar (com <em>DAY</em>). Ordena per dia de la setmana (dilluns primer).',
+   sol:`SELECT last_name, hire_date,\n       TO_CHAR(hire_date, 'DAY') DAY\nFROM   employees\nORDER BY TO_CHAR(hire_date, 'd');`,
+   note:'El format \'d\' retorna el número del dia de la setmana (1=Diumenge per defecte en Oracle US).'},
+  {n:4, txt:'Mostra el cognom i la comissió dels empleats. Si no en té, mostra "No Commission". Etiqueta COMM.',
+   sol:`SELECT last_name,\n       NVL(TO_CHAR(commission_pct), 'No Commission') COMM\nFROM   employees;`,
+   note:'NVL substitueix el NULL pel segon argument. TO_CHAR converteix el número a text per poder comparar amb la cadena.'},
+  {n:5, txt:'Usant DECODE, mostra el càrrec i el seu grau: AD_PRES→A, ST_MAN→B, IT_PROG→C, SA_REP→D, ST_CLERK→E, resta→0.',
+   sol:`SELECT job_id,\n       DECODE(job_id,\n              'AD_PRES',  'A',\n              'ST_MAN',   'B',\n              'IT_PROG',  'C',\n              'SA_REP',   'D',\n              'ST_CLERK', 'E',\n              '0') GRADE\nFROM   employees;`},
+  {n:6, txt:'Reescriu l\'exercici anterior usant la sintaxi CASE.',
+   sol:`SELECT job_id,\n       CASE job_id\n         WHEN 'AD_PRES'  THEN 'A'\n         WHEN 'ST_MAN'   THEN 'B'\n         WHEN 'IT_PROG'  THEN 'C'\n         WHEN 'SA_REP'   THEN 'D'\n         WHEN 'ST_CLERK' THEN 'E'\n         ELSE '0'\n       END GRADE\nFROM   employees;`,
+   note:'CASE és l\'estàndard SQL i és portable. DECODE és exclusiu d\'Oracle.'}
+];
+
+const TOPIC = 't4';
+
+DATA.forEach(ex => {
+  const c = document.getElementById('ex-body');
+  const div = document.createElement('div');
+  div.className = 'exercise';
+  div.id = TOPIC + '-ex' + ex.n;
+  const note = ex.note ? '<div class="ri-note">'+ex.note+'</div>' : '';
+  div.innerHTML =
+    '<div class="ex-head">' +
+      '<div class="ex-num">' + ex.n + '</div>' +
+      '<div><div class="ex-name">Exercici ' + ex.n + '</div></div>' +
+    '</div>' +
+    '<div class="ex-enunciat">' + ex.txt + '</div>' +
+    '<button class="ri-btn" onclick="reveal(this,\'ans_' + TOPIC + '_' + ex.n + '\')">&#9654; Veure solució</button>' +
+    '<div class="ri-ans" id="ans_' + TOPIC + '_' + ex.n + '">' +
+      '<div class="ri-ans-label">Solució</div>' +
+      '<code class="sql-out" id="sql_t4_' + ex.n + '"></code>' +
+      note +
+    '</div>';
+  c.appendChild(div);
+  const sqlEl = div.querySelector('#sql_t4_' + ex.n);
+  if (sqlEl) sqlEl.innerHTML = cSQL(ex.sol);
+});
+</script>
+</body>
+</html>

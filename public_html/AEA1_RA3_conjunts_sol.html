@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solucions · Operadors de conjunt — MP0484</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+  <style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:#f7f5f0; --card:#ffffff; --ink:#1c1917; --ink-2:#57534e; --ink-3:#a8a29e;
+  --border:#e7e5e4; --accent:#9a3412; --accent-mid:#c2410c; --accent-bg:#fff7ed; --accent-bdr:#fed7aa;
+  --blue:#1e40af; --blue-bg:#eff6ff; --blue-bdr:#bfdbfe;
+  --green:#166534; --green-bg:#f0fdf4; --green-bdr:#bbf7d0;
+  --red:#991b1b; --red-bg:#fef2f2; --red-bdr:#fecaca;
+  --code-bg:#1e293b; --code-text:#e2e8f0; --r:10px; --r-sm:6px;
+}
+body { font-family:'DM Sans',system-ui,sans-serif; background:var(--bg); color:var(--ink); line-height:1.7; font-size:16px; }
+.merce-top { height:5px; background:linear-gradient(90deg,#9a3412 0%,#c2410c 50%,#9a3412 100%); }
+.site-head { background:var(--card); border-bottom:1px solid var(--border); padding:0 24px; }
+.head-inner { max-width:900px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; height:56px; }
+.brand { text-decoration:none; display:flex; flex-direction:column; }
+.brand-mark { font-family:'DM Serif Display',serif; font-size:1.1rem; color:var(--ink); }
+.brand-sub { font-size:11px; color:var(--ink-3); letter-spacing:.04em; }
+.head-course { font-size:13px; color:var(--ink-2); }
+.wrap { max-width:900px; margin:0 auto; padding:24px 24px 80px; }
+.sol-header { margin-bottom:36px; padding-bottom:24px; border-bottom:1.5px solid var(--border); }
+.sol-title { font-family:'DM Serif Display',Georgia,serif; font-size:2rem; margin-bottom:6px; }
+.sol-sub { font-size:14px; color:var(--ink-2); margin-bottom:14px; }
+.badge { font-size:11px; font-weight:600; padding:3px 11px; border-radius:20px; letter-spacing:.05em; text-transform:uppercase; display:inline-block; }
+.b-sol { background:#1e40af; color:#fff; }
+.back-link { display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:var(--accent); text-decoration:none; padding:7px 14px; border:1.5px solid var(--accent-bdr); border-radius:var(--r-sm); background:var(--accent-bg); transition:background .12s; }
+.back-link:hover { background:var(--accent-mid); color:#fff; border-color:var(--accent-mid); }
+.exercise { margin-bottom:32px; padding-bottom:32px; border-bottom:1px solid var(--border); scroll-margin-top:20px; }
+.exercise:last-child { margin-bottom:0; padding-bottom:0; border-bottom:none; }
+.ex-head { display:flex; align-items:flex-start; gap:12px; margin-bottom:12px; }
+.ex-num { min-width:30px; height:30px; background:var(--accent-mid); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600; flex-shrink:0; }
+.ex-name { font-weight:600; font-size:15px; color:var(--ink); }
+.ex-enunciat { font-size:14px; color:var(--ink); margin-bottom:14px; line-height:1.6; }
+.ex-enunciat code { font-family:'JetBrains Mono',monospace; font-size:12px; background:var(--accent-bg); padding:1px 6px; border-radius:3px; color:var(--accent); }
+.ri-btn { display:inline-flex; align-items:center; gap:6px; padding:6px 15px; border:1.5px solid var(--accent-bdr); border-radius:var(--r-sm); background:var(--accent-bg); color:var(--accent); cursor:pointer; font-size:12px; font-family:'DM Sans',sans-serif; font-weight:600; transition:background .12s,color .12s,border-color .12s; }
+.ri-btn:hover { background:var(--accent-mid); color:#fff; border-color:var(--accent-mid); }
+.ri-ans { display:none; margin-top:10px; padding:16px 18px; background:var(--accent-bg); border-radius:var(--r-sm); }
+.ri-ans.show { display:block; }
+.ri-ans-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--accent-mid); margin-bottom:8px; }
+.ri-note { font-size:13px; color:var(--ink-2); margin-top:10px; line-height:1.55; }
+.sql-out { font-family:'JetBrains Mono',monospace; font-size:13px; background:var(--code-bg); color:var(--code-text); padding:16px 20px; border-radius:var(--r-sm); line-height:1.8; white-space:pre; display:block; overflow-x:auto; }
+.site-foot { border-top:1px solid var(--border); padding:20px 24px; margin-top:48px; }
+.foot-inner { max-width:900px; margin:0 auto; display:flex; justify-content:space-between; font-size:12px; color:var(--ink-3); flex-wrap:wrap; gap:8px; }
+.kw { color:#fbbf24; font-weight:500; }
+.fn { color:#a78bfa; }
+.str { color:#4ade80; }
+.num { color:#f472b6; }
+.cmt { color:#64748b; font-style:italic; }
+</style>
+</head>
+<body>
+<div class="merce-top"></div>
+<header class="site-head">
+  <div class="head-inner">
+    <a class="brand" href="index.html"><span class="brand-mark">La Mercè</span><span class="brand-sub">Formació Professional</span></a>
+    <div class="head-course">MP0484 · Bases de dades · DAW</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="sol-header">
+    <div style="margin-bottom:14px">
+      <a class="back-link" href="AEA1_RA3_consultes_complexes.html">&#8592; Tornar al document</a>
+    </div>
+    <span class="badge b-sol">SOLUCIONS</span>
+    <h1 class="sol-title" style="margin-top:10px">Exercicis — Operadors de conjunt</h1>
+    <p class="sol-sub">UNION · UNION ALL · INTERSECT · MINUS · BD HR d'Oracle</p>
+  </div>
+  <div id="ex-body"></div>
+</div>
+
+<footer class="site-foot">
+  <div class="foot-inner">
+    <span>Institut La Mercè · Formació Professional</span>
+    <span>Cicle DAW · MP0484 Bases de dades · Curs 2025&#8211;2026</span>
+  </div>
+</footer>
+
+<script>
+
+function cSQL(t){
+  t=t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  t=t.replace(/(--[^\n]*)/g,'<span class="cmt">$1</span>');
+  t=t.replace(/('[^']*')/g,'<span class="str">$1</span>');
+  t=t.replace(/\b(\d+\.?\d*)\b/g,'<span class="num">$1</span>');
+  t=t.replace(/\b(SELECT|FROM|WHERE|AND|OR|NOT|IN|LIKE|BETWEEN|IS|NULL|ORDER\s+BY|GROUP\s+BY|HAVING|DISTINCT|AS|ASC|DESC|CASE|WHEN|THEN|ELSE|END|JOIN|INNER\s+JOIN|NATURAL\s+JOIN|LEFT\s+OUTER\s+JOIN|LEFT\s+JOIN|RIGHT\s+OUTER\s+JOIN|FULL\s+OUTER\s+JOIN|ON|USING|UNION|UNION\s+ALL|INTERSECT|MINUS|EXISTS|NOT\s+EXISTS|ANY|ALL|NOT\s+IN|UNDEFINE)\b/gi,'<span class="kw">$1</span>');
+  t=t.replace(/\b(COUNT|SUM|AVG|MAX|MIN|ROUND|TRUNC|NVL|TO_CHAR|TO_NUMBER|TO_DATE|SYSDATE|DECODE|LOWER|UPPER|MONTHS_BETWEEN)\b/gi,'<span class="fn">$1</span>');
+  return t;
+}
+function reveal(btn,id){
+  document.getElementById(id).classList.add('show');
+  btn.style.display='none';
+}
+function openFromHash(){
+  var hash=location.hash.slice(1);
+  if(!hash) return;
+  var target=document.getElementById(hash);
+  if(!target) return;
+  var btn=target.querySelector('.ri-btn');
+  var ans=target.querySelector('.ri-ans');
+  if(btn && ans){ ans.classList.add('show'); btn.style.display='none'; }
+  setTimeout(function(){ target.scrollIntoView({behavior:'smooth',block:'start'}); },150);
+}
+window.addEventListener('load', openFromHash);
+window.addEventListener('hashchange', openFromHash);
+
+
+var EXDATA_T8 = [
+  {n:1,txt:'Mostra els ID de departament que NO contenen el càrrec ST_CLERK. Utilitza operadors de definició.',
+   sol:`SELECT department_id\nFROM   departments\nMINUS\nSELECT department_id\nFROM   employees\nWHERE  job_id = 'ST_CLERK';`,
+   note:'MINUS retorna les files de la primera consulta que no apareixen a la segona. Equivalent a NOT IN però més llegible.'},
+  {n:2,txt:'Mostra els països (ID i nom) que no tenen cap departament. Utilitza operadors de definició.',
+   sol:`SELECT country_id, country_name\nFROM   countries\nMINUS\nSELECT l.country_id, c.country_name\nFROM   locations   l\nJOIN   countries   c ON (l.country_id  = c.country_id)\nJOIN   departments d ON (d.location_id = l.location_id);`},
+  {n:3,txt:'Crea una llista de càrrecs per als departaments 10, 50 i 20, en aquest ordre. Mostra JOB_ID i DEPARTMENT_ID.',
+   sol:`-- UNION ALL manté l'ordre original\nSELECT DISTINCT job_id, department_id\nFROM   employees WHERE department_id = 10\nUNION ALL\nSELECT DISTINCT job_id, department_id\nFROM   employees WHERE department_id = 50\nUNION ALL\nSELECT DISTINCT job_id, department_id\nFROM   employees WHERE department_id = 20;`,
+   note:'UNION ALL no elimina duplicats i és més ràpid que UNION. Si es vol eliminar duplicats, usar UNION.'},
+  {n:4,txt:'Mostra els empleats que actualment tenen el mateix càrrec que tenien quan van ser contractats (han canviat però han tornat al càrrec original).',
+   sol:`SELECT employee_id, job_id\nFROM   employees\nINTERSECT\nSELECT employee_id, job_id\nFROM   job_history;`,
+   note:'INTERSECT retorna les files comunes a les dues consultes. JOB_HISTORY conté els càrrecs anteriors.'},
+  {n:5,txt:'Crea un informe amb: cognom, ID dept i nom dept (NULL) de tots els empleats + nom (NULL), ID dept i nom dept de tots els departaments (incloent els sense empleats).',
+   sol:`SELECT last_name, department_id,\n       TO_CHAR(null) department_name\nFROM   employees\nUNION\nSELECT TO_CHAR(null), department_id, department_name\nFROM   departments;`,
+   note:'TO_CHAR(null) afegeix una columna NULL amb tipus VARCHAR2 per fer compatibles les dues consultes del UNION.'}
+];
+
+var TOPIC = 't8';
+
+EXDATA_T8.forEach(function(ex) {
+  var c = document.getElementById('ex-body');
+  var div = document.createElement('div');
+  div.className = 'exercise';
+  div.id = TOPIC + '-ex' + ex.n;
+  var note = ex.note ? '<div class="ri-note">'+ex.note+'</div>' : '';
+  var ansId = 'ans_' + TOPIC + '_' + ex.n;
+  var sqlId = 'sql_' + TOPIC + '_' + ex.n;
+  div.innerHTML =
+    '<div class="ex-head">' +
+      '<div class="ex-num">' + ex.n + '</div>' +
+      '<div><div class="ex-name">Exercici ' + ex.n + '</div></div>' +
+    '</div>' +
+    '<div class="ex-enunciat">' + ex.txt + '</div>' +
+    '<button class="ri-btn" onclick="reveal(this,\'' + ansId + '\')">&#9654; Veure soluci&#243;</button>' +
+    '<div class="ri-ans" id="' + ansId + '">' +
+      '<div class="ri-ans-label">Soluci&#243;</div>' +
+      '<code class="sql-out" id="' + sqlId + '"></code>' +
+      note +
+    '</div>';
+  c.appendChild(div);
+  var sqlEl = document.getElementById(sqlId);
+  if (sqlEl) sqlEl.innerHTML = cSQL(ex.sol);
+});
+</script>
+</body>
+</html>
