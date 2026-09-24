@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solucions AEA1 · Consultes SQL — MP0484 Bases de dades</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+  <style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:#f7f5f0; --card:#ffffff; --ink:#1c1917; --ink-2:#57534e; --ink-3:#a8a29e;
+  --border:#e7e5e4; --accent:#9a3412; --accent-mid:#c2410c; --accent-bg:#fff7ed; --accent-bdr:#fed7aa;
+  --blue:#1e40af; --blue-bg:#eff6ff; --blue-bdr:#bfdbfe;
+  --green:#166534; --green-bg:#f0fdf4; --green-bdr:#bbf7d0;
+  --r:10px; --r-sm:6px;
+}
+body { font-family:'DM Sans',system-ui,sans-serif; background:var(--bg); color:var(--ink); line-height:1.7; font-size:16px; }
+.merce-top { height:5px; background:linear-gradient(90deg,#9a3412 0%,#c2410c 50%,#9a3412 100%); }
+.site-head { background:var(--card); border-bottom:1px solid var(--border); padding:0 24px; }
+.head-inner { max-width:860px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; height:56px; }
+.brand { text-decoration:none; display:flex; flex-direction:column; }
+.brand-mark { font-family:'DM Serif Display',serif; font-size:1.1rem; color:var(--ink); }
+.brand-sub { font-size:11px; color:var(--ink-3); letter-spacing:.04em; }
+.head-course { font-size:13px; color:var(--ink-2); }
+.wrap { max-width:860px; margin:0 auto; padding:40px 24px 80px; }
+.page-title { font-family:'DM Serif Display',Georgia,serif; font-size:2rem; margin-bottom:6px; }
+.page-sub { font-size:15px; color:var(--ink-2); margin-bottom:8px; }
+.prof-hint { font-size:12px; color:var(--ink-3); background:var(--card); border:1px solid var(--border); border-radius:var(--r-sm); padding:10px 16px; margin-bottom:40px; }
+.prof-hint strong { color:var(--accent); }
+.group { margin-bottom:48px; }
+.group-title { font-family:'DM Serif Display',serif; font-size:1.3rem; color:var(--ink); margin-bottom:16px; padding-bottom:10px; border-bottom:1.5px solid var(--border); }
+.tema { background:var(--card); border:1.5px solid var(--border); border-radius:var(--r); padding:18px 22px; margin-bottom:12px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.tema.hidden { opacity:.4; }
+.tema-info { display:flex; align-items:center; gap:14px; }
+.tema-badge { font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; background:var(--accent-bg); color:var(--accent); border:1px solid var(--accent-bdr); padding:3px 10px; border-radius:4px; white-space:nowrap; }
+.tema-name { font-weight:600; font-size:15px; color:var(--ink); }
+.tema-desc { font-size:12px; color:var(--ink-3); margin-top:2px; }
+.tema-right { display:flex; align-items:center; gap:12px; flex-shrink:0; }
+.lnk-btn { display:inline-flex; align-items:center; gap:6px; padding:8px 18px; border-radius:var(--r-sm); font-size:13px; font-weight:600; font-family:'DM Sans',sans-serif; text-decoration:none; transition:background .12s,color .12s,border-color .12s; }
+.lnk-btn.active { background:var(--blue-bg); border:1.5px solid var(--blue-bdr); color:var(--blue); }
+.lnk-btn.active:hover { background:var(--blue); color:#fff; border-color:var(--blue); }
+.lnk-btn.inactive { background:#f5f5f4; border:1.5px solid var(--border); color:var(--ink-3); pointer-events:none; }
+.toggle-btn { padding:6px 14px; border-radius:var(--r-sm); font-size:12px; font-weight:600; font-family:'DM Sans',sans-serif; cursor:pointer; border:1.5px solid var(--border); background:#fafaf9; color:var(--ink-2); transition:background .12s,color .12s; }
+.toggle-btn:hover { background:var(--ink); color:#fff; border-color:var(--ink); }
+.site-foot { border-top:1px solid var(--border); padding:20px 24px; margin-top:40px; }
+.foot-inner { max-width:860px; margin:0 auto; display:flex; justify-content:space-between; font-size:12px; color:var(--ink-3); flex-wrap:wrap; gap:8px; }
+@media (max-width:600px) { .tema { flex-direction:column; align-items:flex-start; } }
+  </style>
+</head>
+<body>
+<div class="merce-top"></div>
+<header class="site-head">
+  <div class="head-inner">
+    <a class="brand" href="index.html"><span class="brand-mark">La Mercè</span><span class="brand-sub">Formació Professional</span></a>
+    <div class="head-course">MP0484 · Bases de dades · DAW</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <h1 class="page-title">Solucions AEA1 — Consultes SQL</h1>
+  <p class="page-sub">MP0484 Bases de dades · Cicle DAW · Curs 2025–2026</p>
+  <div class="prof-hint">
+    &#128274; <strong>Ús del professor:</strong> modifica la configuració <code>ACTIUS</code> al final d'aquest fitxer per activar o desactivar l'accés als fitxers de solucions. Desa i puja el fitxer al servidor perquè els alumnes vegin els canvis.
+  </div>
+
+  <div class="group">
+    <h2 class="group-title">Consultes simples</h2>
+    <div id="tema-t1" class="tema"></div>
+    <div id="tema-t2" class="tema"></div>
+    <div id="tema-t3" class="tema"></div>
+    <div id="tema-t4" class="tema"></div>
+  </div>
+
+  <div class="group">
+    <h2 class="group-title">Consultes complexes</h2>
+    <div id="tema-t5" class="tema"></div>
+    <div id="tema-t6" class="tema"></div>
+    <div id="tema-t7" class="tema"></div>
+    <div id="tema-t8" class="tema"></div>
+    <div id="tema-t9" class="tema"></div>
+  </div>
+</div>
+
+<footer class="site-foot">
+  <div class="foot-inner">
+    <span>Institut La Mercè · Formació Professional</span>
+    <span>Cicle DAW · MP0484 Bases de dades · Curs 2025–2026</span>
+  </div>
+</footer>
+
+<script>
+/* ════════════════════════════════════════════════════════
+   CONFIGURACIÓ DEL PROFESSOR
+   Canvia true/false per activar o desactivar cada tema.
+   Desa el fitxer i puja'l al servidor.
+   ════════════════════════════════════════════════════════ */
+var ACTIUS = {
+  t1: false,   /* T1 — SELECT bàsic, àlies, concatenació     */
+  t2: false,   /* T2 — WHERE, BETWEEN, IN, LIKE, ORDER BY    */
+  t3: false,   /* T3 — Funcions d'una sola fila              */
+  t4: false,   /* T4 — Conversió i expressions condicionals  */
+  t5: false,   /* T5 — Funcions de grup i GROUP BY           */
+  t6: false,   /* T6 — Unions entre taules (JOINs)           */
+  t7: false,   /* T7 — Subconsultes                          */
+  t8: false,   /* T8 — Operadors de conjunt                  */
+  t9: false,   /* T9 — Bones pràctiques i optimització      */
+};
+
+var TEMES = {
+  t1: {
+    badge: '01', nom: 'Recuperació de dades',
+    desc: 'SELECT bàsic · àlies · concatenació · DISTINCT',
+    fitxer: 'AEA1_RA3_select_sol.html', ex: 10
+  },
+  t2: {
+    badge: '02', nom: 'Restricció i ordenació',
+    desc: 'WHERE · BETWEEN · IN · LIKE · IS NULL · ORDER BY',
+    fitxer: 'AEA1_RA3_filtratge_sol.html', ex: 15
+  },
+  t3: {
+    badge: '03', nom: 'Funcions d\'una sola fila',
+    desc: 'ROUND · INITCAP · LENGTH · SUBSTR · MONTHS_BETWEEN · LPAD · RPAD',
+    fitxer: 'AEA1_RA3_funcions_sol.html', ex: 9
+  },
+  t4: {
+    badge: '04', nom: 'Conversió i expressions condicionals',
+    desc: 'TO_CHAR · NVL · DECODE · CASE',
+    fitxer: 'AEA1_RA3_conversio_sol.html', ex: 6
+  },
+  t5: {
+    badge: '05', nom: 'Funcions de grup',
+    desc: 'COUNT · SUM · AVG · MAX · MIN · GROUP BY · HAVING',
+    fitxer: 'AEA1_RA3_grup_sol.html', ex: 11
+  },
+  t6: {
+    badge: '06', nom: 'Unions entre taules',
+    desc: 'NATURAL JOIN · JOIN USING · JOIN ON · self-join · OUTER JOIN',
+    fitxer: 'AEA1_RA3_joins_sol.html', ex: 9
+  },
+  t7: {
+    badge: '07', nom: 'Subconsultes',
+    desc: 'Subconsultes d\'una fila · IN · ANY / ALL',
+    fitxer: 'AEA1_RA3_subconsultes_sol.html', ex: 8
+  },
+  t8: {
+    badge: '08', nom: 'Operadors de conjunt',
+    desc: 'UNION · UNION ALL · INTERSECT · MINUS',
+    fitxer: 'AEA1_RA3_conjunts_sol.html', ex: 5
+  },
+  t9: {
+    badge: '09', nom: 'Bones pràctiques i optimització',
+    desc: 'Sargability · índexos · EXISTS vs IN · FETCH FIRST · errors habituals',
+    fitxer: 'AEA1_RA3_optimitzacio_sol.html', ex: 5
+  }
+};
+
+function renderTema(tid) {
+  var t = TEMES[tid];
+  var actiu = ACTIUS[tid];
+  var el = document.getElementById('tema-' + tid);
+  if (!el) return;
+  el.className = 'tema' + (actiu ? '' : ' hidden');
+  el.innerHTML =
+    '<div class="tema-info">' +
+      '<span class="tema-badge">' + t.badge + '</span>' +
+      '<div>' +
+        '<div class="tema-name">' + t.nom + '</div>' +
+        '<div class="tema-desc">' + t.desc + ' &nbsp;·&nbsp; ' + t.ex + ' exercicis</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="tema-right">' +
+      (actiu
+        ? '<a class="lnk-btn active" href="' + t.fitxer + '" target="_blank">&#9654; Obrir solucions</a>'
+        : '<span class="lnk-btn inactive">&#128274; No disponible</span>'
+      ) +
+    '</div>';
+}
+
+Object.keys(TEMES).forEach(renderTema);
+</script>
+</body>
+</html>
