@@ -27,8 +27,6 @@ body { font-family:'DM Sans',system-ui,sans-serif; background:var(--bg); color:v
 .wrap { max-width:860px; margin:0 auto; padding:40px 24px 80px; }
 .page-title { font-family:'DM Serif Display',Georgia,serif; font-size:2rem; margin-bottom:6px; }
 .page-sub { font-size:15px; color:var(--ink-2); margin-bottom:8px; }
-.prof-hint { font-size:12px; color:var(--ink-3); background:var(--card); border:1px solid var(--border); border-radius:var(--r-sm); padding:10px 16px; margin-bottom:40px; }
-.prof-hint strong { color:var(--accent); }
 .group { margin-bottom:48px; }
 .group-title { font-family:'DM Serif Display',serif; font-size:1.3rem; color:var(--ink); margin-bottom:16px; padding-bottom:10px; border-bottom:1.5px solid var(--border); }
 .tema { background:var(--card); border:1.5px solid var(--border); border-radius:var(--r); padding:18px 22px; margin-bottom:12px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
@@ -53,7 +51,7 @@ body { font-family:'DM Sans',system-ui,sans-serif; background:var(--bg); color:v
 <div class="merce-top"></div>
 <header class="site-head">
   <div class="head-inner">
-    <a class="brand" href="AEA1_RA3_consultes_solucions.html"><span class="brand-mark">La Mercè</span><span class="brand-sub">Formació Professional</span></a>
+    <a class="brand" href="index.html"><span class="brand-mark">La Mercè</span><span class="brand-sub">Formació Professional</span></a>
     <div class="head-course">MP0484 · Bases de dades · DAW</div>
   </div>
 </header>
@@ -61,10 +59,6 @@ body { font-family:'DM Sans',system-ui,sans-serif; background:var(--bg); color:v
 <div class="wrap">
   <h1 class="page-title">Solucions AEA1 — Consultes SQL</h1>
   <p class="page-sub">MP0484 Bases de dades · Cicle DAW · Curs 2025–2026</p>
-  <div class="prof-hint">
-    &#128274; <strong>Ús del professor:</strong> modifica la configuració <code>ACTIUS</code> al final d'aquest fitxer per activar o desactivar l'accés als fitxers de solucions. Desa i puja el fitxer al servidor perquè els alumnes vegin els canvis.
-  </div>
-
   <div class="group">
     <h2 class="group-title">Consultes simples</h2>
     <div id="tema-t1" class="tema"></div>
@@ -97,7 +91,7 @@ body { font-family:'DM Sans',system-ui,sans-serif; background:var(--bg); color:v
    Desa el fitxer i puja'l al servidor.
    ════════════════════════════════════════════════════════ */
 var ACTIUS = {
-  t1: true,   /* T1 — SELECT bàsic, àlies, concatenació     */
+  t1: false,   /* T1 — SELECT bàsic, àlies, concatenació     */
   t2: false,   /* T2 — WHERE, BETWEEN, IN, LIKE, ORDER BY    */
   t3: false,   /* T3 — Funcions d'una sola fila              */
   t4: false,   /* T4 — Conversió i expressions condicionals  */
