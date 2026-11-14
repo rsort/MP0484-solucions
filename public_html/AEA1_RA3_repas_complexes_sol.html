@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solucions · Repàs de consultes complexes — MP0484</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+  <style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:#f7f5f0; --card:#ffffff; --ink:#1c1917; --ink-2:#57534e; --ink-3:#a8a29e;
+  --border:#e7e5e4; --accent:#9a3412; --accent-mid:#c2410c; --accent-bg:#fff7ed; --accent-bdr:#fed7aa;
+  --blue:#1e40af; --blue-bg:#eff6ff; --blue-bdr:#bfdbfe;
+  --green:#166534; --green-bg:#f0fdf4; --green-bdr:#bbf7d0;
+  --red:#991b1b; --red-bg:#fef2f2; --red-bdr:#fecaca;
+  --code-bg:#1e293b; --code-text:#e2e8f0; --r:10px; --r-sm:6px;
+}
+body { font-family:'DM Sans',system-ui,sans-serif; background:var(--bg); color:var(--ink); line-height:1.7; font-size:16px; }
+.merce-top { height:5px; background:linear-gradient(90deg,#9a3412 0%,#c2410c 50%,#9a3412 100%); }
+.site-head { background:var(--card); border-bottom:1px solid var(--border); padding:0 24px; }
+.head-inner { max-width:900px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; height:56px; }
+.brand { text-decoration:none; display:flex; flex-direction:column; }
+.brand-mark { font-family:'DM Serif Display',serif; font-size:1.1rem; color:var(--ink); }
+.brand-sub { font-size:11px; color:var(--ink-3); letter-spacing:.04em; }
+.head-course { font-size:13px; color:var(--ink-2); }
+.wrap { max-width:900px; margin:0 auto; padding:24px 24px 80px; }
+.sol-header { margin-bottom:36px; padding-bottom:24px; border-bottom:1.5px solid var(--border); }
+.sol-title { font-family:'DM Serif Display',Georgia,serif; font-size:2rem; margin-bottom:6px; }
+.sol-sub { font-size:14px; color:var(--ink-2); margin-bottom:14px; }
+.badge { font-size:11px; font-weight:600; padding:3px 11px; border-radius:20px; letter-spacing:.05em; text-transform:uppercase; display:inline-block; }
+.b-sol { background:#1e40af; color:#fff; }
+.back-link { display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:var(--accent); text-decoration:none; padding:7px 14px; border:1.5px solid var(--accent-bdr); border-radius:var(--r-sm); background:var(--accent-bg); transition:background .12s; }
+.back-link:hover { background:var(--accent-mid); color:#fff; border-color:var(--accent-mid); }
+.exercise { margin-bottom:32px; padding-bottom:32px; border-bottom:1px solid var(--border); scroll-margin-top:20px; }
+.exercise:last-child { margin-bottom:0; padding-bottom:0; border-bottom:none; }
+.ex-head { display:flex; align-items:flex-start; gap:12px; margin-bottom:12px; }
+.ex-num { min-width:30px; height:30px; background:var(--accent-mid); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600; flex-shrink:0; }
+.ex-name { font-weight:600; font-size:15px; color:var(--ink); }
+.ex-enunciat { font-size:14px; color:var(--ink); margin-bottom:14px; line-height:1.6; }
+.ex-enunciat code { font-family:'JetBrains Mono',monospace; font-size:12px; background:var(--accent-bg); padding:1px 6px; border-radius:3px; color:var(--accent); }
+.ri-btn { display:inline-flex; align-items:center; gap:6px; padding:6px 15px; border:1.5px solid var(--accent-bdr); border-radius:var(--r-sm); background:var(--accent-bg); color:var(--accent); cursor:pointer; font-size:12px; font-family:'DM Sans',sans-serif; font-weight:600; transition:background .12s,color .12s,border-color .12s; }
+.ri-btn:hover { background:var(--accent-mid); color:#fff; border-color:var(--accent-mid); }
+.ri-ans { display:none; margin-top:10px; padding:16px 18px; background:var(--accent-bg); border-radius:var(--r-sm); }
+.ri-ans.show { display:block; }
+.ri-ans-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--accent-mid); margin-bottom:8px; }
+.ri-note { font-size:13px; color:var(--ink-2); margin-top:10px; line-height:1.55; }
+.sql-out { font-family:'JetBrains Mono',monospace; font-size:13px; background:var(--code-bg); color:var(--code-text); padding:16px 20px; border-radius:var(--r-sm); line-height:1.8; white-space:pre; display:block; overflow-x:auto; }
+.site-foot { border-top:1px solid var(--border); padding:20px 24px; margin-top:48px; }
+.foot-inner { max-width:900px; margin:0 auto; display:flex; justify-content:space-between; font-size:12px; color:var(--ink-3); flex-wrap:wrap; gap:8px; }
+.kw { color:#fbbf24; font-weight:500; }
+.fn { color:#a78bfa; }
+.str { color:#4ade80; }
+.num { color:#f472b6; }
+.cmt { color:#64748b; font-style:italic; }
+.sec-title { font-family:'DM Serif Display',serif; font-size:1.3rem; color:var(--ink); margin:8px 0 20px; padding-bottom:10px; border-bottom:1.5px solid var(--border); }
+.exercise + .sec-title { margin-top:40px; }
+</style>
+</head>
+<body>
+<div class="merce-top"></div>
+<header class="site-head">
+  <div class="head-inner">
+    <a class="brand" href="AEA1_RA3_consultes_solucions.html"><span class="brand-mark">La Mercè</span><span class="brand-sub">Formació Professional</span></a>
+    <div class="head-course">MP0484 · Bases de dades · DAW</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="sol-header">
+    <div style="margin-bottom:14px">
+      <a class="back-link" href="AEA1_RA3_consultes_complexes.html">&#8592; Tornar al document</a>
+    </div>
+    <span class="badge b-sol">SOLUCIONS</span>
+    <h1 class="sol-title" style="margin-top:10px">Exercicis — Repàs de consultes complexes</h1>
+    <p class="sol-sub">Joins · Funcions de grup · Subconsultes · Operadors SET · BD HR d'Oracle</p>
+  </div>
+  <div id="ex-body"></div>
+</div>
+
+<footer class="site-foot">
+  <div class="foot-inner">
+    <span>Institut La Mercè · Formació Professional</span>
+    <span>Cicle DAW · MP0484 Bases de dades · Curs 2025&#8211;2026</span>
+  </div>
+</footer>
+
+<script>
+
+function cSQL(t){
+  t=t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  t=t.replace(/(--[^\n]*)/g,'<span class="cmt">$1</span>');
+  t=t.replace(/('[^']*')/g,'<span class="str">$1</span>');
+  t=t.replace(/\b(\d+\.?\d*)\b/g,'<span class="num">$1</span>');
+  t=t.replace(/\b(SELECT|FROM|WHERE|AND|OR|NOT|IN|LIKE|BETWEEN|IS|NULL|ORDER\s+BY|GROUP\s+BY|HAVING|DISTINCT|AS|ASC|DESC|CASE|WHEN|THEN|ELSE|END|JOIN|INNER\s+JOIN|NATURAL\s+JOIN|LEFT\s+OUTER\s+JOIN|LEFT\s+JOIN|RIGHT\s+OUTER\s+JOIN|FULL\s+OUTER\s+JOIN|ON|USING|UNION|UNION\s+ALL|INTERSECT|MINUS|EXISTS|NOT\s+EXISTS|ANY|ALL|NOT\s+IN|UNDEFINE)\b/gi,'<span class="kw">$1</span>');
+  t=t.replace(/\b(COUNT|SUM|AVG|MAX|MIN|ROUND|TRUNC|NVL|TO_CHAR|TO_NUMBER|TO_DATE|SYSDATE|DECODE|LOWER|UPPER|MONTHS_BETWEEN)\b/gi,'<span class="fn">$1</span>');
+  return t;
+}
+function reveal(btn,id){
+  document.getElementById(id).classList.add('show');
+  btn.style.display='none';
+}
+function openFromHash(){
+  var hash=location.hash.slice(1);
+  if(!hash) return;
+  var target=document.getElementById(hash);
+  if(!target) return;
+  var btn=target.querySelector('.ri-btn');
+  var ans=target.querySelector('.ri-ans');
+  if(btn && ans){ ans.classList.add('show'); btn.style.display='none'; }
+  setTimeout(function(){ target.scrollIntoView({behavior:'smooth',block:'start'}); },150);
+}
+window.addEventListener('load', openFromHash);
+window.addEventListener('hashchange', openFromHash);
+
+
+var EXDATA_T10 = [
+  {sec:"Joins", n:1, txt:"Mostreu el nom del departament, la ciutat i el nom del país (<code>COUNTRY_NAME</code>) de tots els departaments. Ordenats per país i ciutat.",
+   sol:"SELECT d.department_name, l.city, c.country_name\nFROM   departments d\nJOIN   locations   l ON d.location_id = l.location_id\nJOIN   countries   c ON l.country_id  = c.country_id\nORDER BY c.country_name, l.city;",
+   note:"<strong>Concepte:</strong> Equijoin de 3 taules (DEPARTMENTS, LOCATIONS, COUNTRIES)."},
+  {sec:"Joins", n:2, txt:"Mostreu el cognom i el nom separats per una coma i un espai (àlies: <code>Empleat</code>; per exemple <em>King, Steven</em>) i el títol de l'ofici dels empleats que cobren més de 9000 €. Ordenats per títol d'ofici i cognom.",
+   sol:"SELECT e.last_name || ', ' || e.first_name AS \"Empleat\",\n       j.job_title\nFROM   employees e\nJOIN   jobs      j ON e.job_id = j.job_id\nWHERE  e.salary > 9000\nORDER BY j.job_title, e.last_name;",
+   note:"<strong>Concepte:</strong> Equijoin + concatenació."},
+  {sec:"Joins", n:3, txt:"Mostreu el cognom, el salari, la comissió i la categoria salarial (<code>GRADE_LEVEL</code> de <code>JOB_GRADES</code>) dels empleats que tenen comissió. Ordenats per categoria i, dins de cada categoria, per salari descendent.",
+   sol:"SELECT e.last_name, e.salary, e.commission_pct, g.grade_level\nFROM   employees  e\nJOIN   job_grades g ON e.salary BETWEEN g.lowest_sal AND g.highest_sal\nWHERE  e.commission_pct IS NOT NULL\nORDER BY g.grade_level, e.salary DESC;",
+   note:"<strong>Concepte:</strong> Non-equijoin amb JOB_GRADES (BETWEEN) + IS NOT NULL."},
+  {sec:"Joins", n:4, txt:"Mostreu el cognom, el nom del departament i la categoria salarial dels empleats dels departaments 50 i 60 que pertanyen a les categories 'B' o 'C'. Ordenats per nom de departament i cognom.",
+   sol:"SELECT e.last_name, d.department_name, g.grade_level\nFROM   employees   e\nJOIN   departments d ON e.department_id = d.department_id\nJOIN   job_grades  g ON e.salary BETWEEN g.lowest_sal AND g.highest_sal\nWHERE  e.department_id IN (50, 60)\nAND    g.grade_level IN ('B', 'C')\nORDER BY d.department_name, e.last_name;",
+   note:"<strong>Concepte:</strong> Non-equijoin combinat amb un equijoin."},
+  {sec:"Joins", n:5, txt:"Mostreu el nom de tots els països (<code>COUNTRY_NAME</code>) i les ciutats que hi tenen ubicació (<code>LOCATIONS</code>). Han d'aparèixer també els països que no tenen cap ubicació; en aquest cas, la ciutat ha de mostrar el text <em>Sense ubicació</em>. Àlies: <code>País</code>, <code>Ciutat</code>. Ordenats per país.",
+   sol:"SELECT c.country_name                 AS \"País\",\n       NVL(l.city, 'Sense ubicació')  AS \"Ciutat\"\nFROM   countries c\nLEFT JOIN locations l ON c.country_id = l.country_id\nORDER BY c.country_name;",
+   note:"<strong>Concepte:</strong> Outer join (LEFT JOIN) + NVL. Mireu quina taula ha de conservar totes les files."},
+  {sec:"Joins", n:6, txt:"Mostreu el cognom de tots els empleats i el cognom del seu cap. Han d'aparèixer tots els empleats; si no tenen cap, ha d'aparèixer el text <em>Sense cap</em>. Àlies: <code>Empleat</code>, <code>Cap</code>. Ordenats per cognom de l'empleat.",
+   sol:"SELECT e.last_name                  AS \"Empleat\",\n       NVL(m.last_name, 'Sense cap')  AS \"Cap\"\nFROM   employees e\nLEFT JOIN employees m ON e.manager_id = m.employee_id\nORDER BY e.last_name;",
+   note:"<strong>Concepte:</strong> Self join amb outer join (apareix l'empleat sense cap)."},
+  {sec:"Joins", n:7, txt:"Mostreu el cognom i el salari de l'empleat, i el cognom i el salari del seu cap, dels empleats que cobren més que el seu cap. Àlies: <code>Empleat</code>, <code>Salari Empleat</code>, <code>Cap</code>, <code>Salari Cap</code>.",
+   sol:"SELECT e.last_name AS \"Empleat\",\n       e.salary    AS \"Salari Empleat\",\n       m.last_name AS \"Cap\",\n       m.salary    AS \"Salari Cap\"\nFROM   employees e\nJOIN   employees m ON e.manager_id = m.employee_id\nWHERE  e.salary > m.salary;",
+   note:"<strong>Concepte:</strong> Self join amb comparació de columnes."},
+  {sec:"Joins", n:8, txt:"Mostreu el cognom de l'empleat, el títol de l'ofici que va tenir (<code>JOB_HISTORY</code>), la data d'inici i la data de finalització, de tots els registres de l'historial de feines. Ordenats per cognom i data d'inici.",
+   sol:"SELECT e.last_name, j.job_title, h.start_date, h.end_date\nFROM   job_history h\nJOIN   employees   e ON h.employee_id = e.employee_id\nJOIN   jobs        j ON h.job_id      = j.job_id\nORDER BY e.last_name, h.start_date;",
+   note:"<strong>Concepte:</strong> Join de 3 taules passant per JOB_HISTORY."},
+  {sec:"Funcions de grup", n:9, txt:"Mostreu per cada categoria salarial (<code>GRADE_LEVEL</code>) el nombre d'empleats que hi pertanyen. Àlies: <code>Num Empleats</code>. Ordenats per categoria.",
+   sol:"SELECT g.grade_level, COUNT(*) AS \"Num Empleats\"\nFROM   employees  e\nJOIN   job_grades g ON e.salary BETWEEN g.lowest_sal AND g.highest_sal\nGROUP BY g.grade_level\nORDER BY g.grade_level;",
+   note:"<strong>Concepte:</strong> Non-equijoin + GROUP BY."},
+  {sec:"Funcions de grup", n:10, txt:"Mostreu el nom de cada país (<code>COUNTRY_NAME</code>) i el nombre d'empleats que hi treballen, només dels països amb més de 2 empleats. Àlies: <code>Num Empleats</code>. Ordenats per nombre d'empleats de forma descendent.",
+   sol:"SELECT c.country_name, COUNT(*) AS \"Num Empleats\"\nFROM   employees   e\nJOIN   departments d ON e.department_id = d.department_id\nJOIN   locations   l ON d.location_id   = l.location_id\nJOIN   countries   c ON l.country_id    = c.country_id\nGROUP BY c.country_name\nHAVING COUNT(*) > 2\nORDER BY COUNT(*) DESC;",
+   note:"<strong>Concepte:</strong> GROUP BY + HAVING amb join de 4 taules."},
+  {sec:"Funcions de grup", n:11, txt:"Mostreu per cada ofici (<code>JOB_ID</code>) el salari màxim, el salari mínim i la diferència entre tots dos, només dels oficis amb una diferència superior a 3000 €. Àlies: <code>Màxim</code>, <code>Mínim</code>, <code>Diferència</code>. Ordenats per diferència de forma descendent.",
+   sol:"SELECT job_id,\n       MAX(salary)               AS \"Màxim\",\n       MIN(salary)               AS \"Mínim\",\n       MAX(salary) - MIN(salary) AS \"Diferència\"\nFROM   employees\nGROUP BY job_id\nHAVING MAX(salary) - MIN(salary) > 3000\nORDER BY \"Diferència\" DESC;",
+   note:"<strong>Concepte:</strong> Funcions de grup combinades en una expressió dins de HAVING."},
+  {sec:"Funcions de grup", n:12, txt:"Mostreu totes les ciutats (<code>CITY</code>) i el nombre de departaments que hi ha a cadascuna. Han d'aparèixer també les ciutats sense cap departament. Àlies: <code>Num Departaments</code>. Ordenats per nombre de departaments descendent i, en cas d'empat, per ciutat.",
+   sol:"SELECT l.city, COUNT(d.department_id) AS \"Num Departaments\"\nFROM   locations l\nLEFT JOIN departments d ON l.location_id = d.location_id\nGROUP BY l.location_id, l.city\nORDER BY COUNT(d.department_id) DESC, l.city;",
+   note:"<strong>Concepte:</strong> Outer join + COUNT(columna). Compte: COUNT(*) donaria 1 per les ciutats sense departaments."},
+  {sec:"Funcions de grup", n:13, txt:"Mostreu el número de departament i el total de salaris que paga, només dels departaments on el total supera els 20000 €, sense tenir en compte els empleats amb ofici <code>SA_REP</code>. Àlies: <code>Total Salaris</code>. Ordenats pel total de forma ascendent.",
+   sol:"SELECT department_id, SUM(salary) AS \"Total Salaris\"\nFROM   employees\nWHERE  job_id <> 'SA_REP'\nGROUP BY department_id\nHAVING SUM(salary) > 20000\nORDER BY SUM(salary);",
+   note:"<strong>Concepte:</strong> Diferència entre WHERE (filtra files) i HAVING (filtra grups)."},
+  {sec:"Subconsultes", n:14, txt:"Mostreu el cognom, el salari i el departament dels empleats que cobren el salari mínim de tota l'empresa.",
+   sol:"SELECT last_name, salary, department_id\nFROM   employees\nWHERE  salary = (SELECT MIN(salary)\n                 FROM   employees);",
+   note:"<strong>Concepte:</strong> Subconsulta d'un sol registre amb funció de grup."},
+  {sec:"Subconsultes", n:15, txt:"Mostreu, sense repeticions, els oficis (<code>JOB_ID</code>) dels empleats que treballen en algun departament el nom del qual comença per 'S'. Utilitzeu una subconsulta. Ordenats alfabèticament.",
+   sol:"SELECT DISTINCT job_id\nFROM   employees\nWHERE  department_id IN (SELECT department_id\n                         FROM   departments\n                         WHERE  department_name LIKE 'S%')\nORDER BY job_id;",
+   note:"<strong>Concepte:</strong> Subconsulta multi-registre (IN) + LIKE + DISTINCT."},
+  {sec:"Subconsultes", n:16, txt:"Mostreu el cognom i el salari dels empleats del departament 50 que cobren més que algun dels empleats del departament 30. Ordenats per salari de forma descendent.",
+   sol:"SELECT last_name, salary\nFROM   employees\nWHERE  department_id = 50\nAND    salary > ANY (SELECT salary\n                     FROM   employees\n                     WHERE  department_id = 30)\nORDER BY salary DESC;",
+   note:"<strong>Concepte:</strong> Subconsulta multi-registre (ANY)."},
+  {sec:"Subconsultes", n:17, txt:"Mostreu el cognom, l'ofici i el salari dels empleats que cobren menys que tots els empleats amb ofici 'IT_PROG'. Ordenats per salari de forma descendent.",
+   sol:"SELECT last_name, job_id, salary\nFROM   employees\nWHERE  salary < ALL (SELECT salary\n                     FROM   employees\n                     WHERE  job_id = 'IT_PROG')\nORDER BY salary DESC;",
+   note:"<strong>Concepte:</strong> Subconsulta multi-registre (ALL)."},
+  {sec:"Subconsultes", n:18, txt:"Utilitzant l'operador <code>EXISTS</code>, mostreu el nom de les ciutats (<code>CITY</code>) on hi ha com a mínim un departament. Ordenades alfabèticament.",
+   sol:"SELECT l.city\nFROM   locations l\nWHERE  EXISTS (SELECT 1\n               FROM   departments d\n               WHERE  d.location_id = l.location_id)\nORDER BY l.city;",
+   note:"<strong>Concepte:</strong> Subconsulta correlacionada amb EXISTS."},
+  {sec:"Subconsultes", n:19, txt:"Utilitzant l'operador <code>NOT EXISTS</code>, mostreu el cognom i el nom dels empleats que no tenen cap registre a la taula <code>JOB_HISTORY</code>. Ordenats per cognom.",
+   sol:"SELECT e.last_name, e.first_name\nFROM   employees e\nWHERE  NOT EXISTS (SELECT 1\n                   FROM   job_history h\n                   WHERE  h.employee_id = e.employee_id)\nORDER BY e.last_name;",
+   note:"<strong>Concepte:</strong> Subconsulta correlacionada amb NOT EXISTS."},
+  {sec:"Subconsultes", n:20, txt:"Mostreu el número de departament i el nombre d'empleats dels departaments que tenen més empleats que el departament 90. Àlies: <code>Num Empleats</code>. Ordenats per número de departament.",
+   sol:"SELECT department_id, COUNT(*) AS \"Num Empleats\"\nFROM   employees\nGROUP BY department_id\nHAVING COUNT(*) > (SELECT COUNT(*)\n                   FROM   employees\n                   WHERE  department_id = 90)\nORDER BY department_id;",
+   note:"<strong>Concepte:</strong> Subconsulta dins de HAVING."},
+  {sec:"Subconsultes", n:21, txt:"Mostreu el cognom, el salari i el departament dels empleats que cobren el salari més alt del seu propi departament. Ordenats per departament.",
+   sol:"SELECT e.last_name, e.salary, e.department_id\nFROM   employees e\nWHERE  e.salary = (SELECT MAX(x.salary)\n                   FROM   employees x\n                   WHERE  x.department_id = e.department_id)\nORDER BY e.department_id;",
+   note:"<strong>Concepte:</strong> Subconsulta correlacionada escalar (el valor depèn de la fila externa)."},
+  {sec:"Operadors SET", n:22, txt:"Sense utilitzar l'operador <code>OR</code>, mostreu el cognom i el salari dels empleats que cobren més de 15000 € o que treballen al departament 20, sense repeticions. Utilitzeu un operador SET. Ordenats per cognom.",
+   sol:"SELECT last_name, salary\nFROM   employees\nWHERE  salary > 15000\nUNION\nSELECT last_name, salary\nFROM   employees\nWHERE  department_id = 20\nORDER BY 1;",
+   note:"<strong>Concepte:</strong> UNION."},
+  {sec:"Operadors SET", n:23, txt:"Mostreu en dues columnes (<code>Cognom</code> i <code>Tipus</code>) els empleats amb ofici <code>SA_MAN</code>, amb el text <em>Cap de vendes</em>, i els empleats amb ofici <code>ST_MAN</code>, amb el text <em>Cap de magatzem</em>. Ordenats per tipus i cognom.",
+   sol:"SELECT last_name AS \"Cognom\", 'Cap de vendes' AS \"Tipus\"\nFROM   employees\nWHERE  job_id = 'SA_MAN'\nUNION ALL\nSELECT last_name, 'Cap de magatzem'\nFROM   employees\nWHERE  job_id = 'ST_MAN'\nORDER BY 2, 1;",
+   note:"<strong>Concepte:</strong> UNION ALL + columna literal."},
+  {sec:"Operadors SET", n:24, txt:"Mostreu els números d'empleat que són cap d'algun empleat (<code>EMPLOYEES.MANAGER_ID</code>) i que també són cap d'algun departament (<code>DEPARTMENTS.MANAGER_ID</code>). No ha d'aparèixer cap valor nul. Ordenats per número.",
+   sol:"SELECT manager_id\nFROM   employees\nWHERE  manager_id IS NOT NULL\nINTERSECT\nSELECT manager_id\nFROM   departments\nWHERE  manager_id IS NOT NULL\nORDER BY 1;",
+   note:"<strong>Concepte:</strong> INTERSECT."},
+  {sec:"Operadors SET", n:25, txt:"Mostreu els números d'ubicació (<code>LOCATION_ID</code>) de la taula <code>LOCATIONS</code> que no tenen cap departament. Utilitzeu un operador SET. Ordenats per número.",
+   sol:"SELECT location_id\nFROM   locations\nMINUS\nSELECT location_id\nFROM   departments\nORDER BY 1;",
+   note:"<strong>Concepte:</strong> MINUS."}
+];
+
+var TOPIC = 't10';
+var lastSec = null;
+
+EXDATA_T10.forEach(function(ex) {
+  var c = document.getElementById('ex-body');
+  if (ex.sec !== lastSec) {
+    var h = document.createElement('h2');
+    h.className = 'sec-title';
+    h.textContent = ex.sec;
+    c.appendChild(h);
+    lastSec = ex.sec;
+  }
+  var div = document.createElement('div');
+  div.className = 'exercise';
+  div.id = TOPIC + '-ex' + ex.n;
+  var note = ex.note ? '<div class="ri-note">'+ex.note+'</div>' : '';
+  var ansId = 'ans_' + TOPIC + '_' + ex.n;
+  var sqlId = 'sql_' + TOPIC + '_' + ex.n;
+  div.innerHTML =
+    '<div class="ex-head">' +
+      '<div class="ex-num">' + ex.n + '</div>' +
+      '<div><div class="ex-name">Exercici ' + ex.n + '</div></div>' +
+    '</div>' +
+    '<div class="ex-enunciat">' + ex.txt + '</div>' +
+    '<button class="ri-btn" onclick="reveal(this,\'' + ansId + '\')">&#9654; Veure soluci&#243;</button>' +
+    '<div class="ri-ans" id="' + ansId + '">' +
+      '<div class="ri-ans-label">Soluci&#243;</div>' +
+      '<code class="sql-out" id="' + sqlId + '"></code>' +
+      note +
+    '</div>';
+  c.appendChild(div);
+  var sqlEl = document.getElementById(sqlId);
+  if (sqlEl) sqlEl.innerHTML = cSQL(ex.sol);
+});
+</script>
+</body>
+</html>
