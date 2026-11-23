@@ -93,8 +93,8 @@ body { font-family:'DM Sans',system-ui,sans-serif; background:var(--bg); color:v
 var ACTIUS = {
   t1: true,    /* T1 — Crear i gestionar taules              */
   t2: true,    /* T2 — Creació d'altres objectes d'esquema   */
-  t3: false,   /* T3 — DCL                                   */
-  t4: false,   /* T4 — DML                                   */
+  t3: true,    /* T3 — DCL: usuaris, rols i privilegis       */
+  t4: true,    /* T4 — DML: manipulació de dades             */
 };
 
 var TEMES = {
@@ -109,14 +109,14 @@ var TEMES = {
     fitxer: 'AEA2_DDL_objectes_sol.html', ex: 10
   },
   t3: {
-    badge: '03', nom: 'Control d\'accés dels usuaris',
-    desc: 'CREATE USER · GRANT · REVOKE · rols',
-    fitxer: 'AEA2_DCL_sol.html'
+    badge: '03', nom: 'Usuaris, rols i privilegis',
+    desc: 'CREATE USER · CREATE ROLE · GRANT · REVOKE · WITH ADMIN / GRANT OPTION · diccionari de dades',
+    fitxer: 'AEA2_DCL_sol.html', ex: 37
   },
   t4: {
     badge: '04', nom: 'Manipulació de dades',
-    desc: 'INSERT · UPDATE · DELETE · transaccions',
-    fitxer: 'AEA2_DML_sol.html'
+    desc: 'INSERT · UPDATE · DELETE · variables de substitució · COMMIT · SAVEPOINT · ROLLBACK',
+    fitxer: 'AEA2_DML_sol.html', ex: 26
   }
 };
 
