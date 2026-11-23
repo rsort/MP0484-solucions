@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solucions · DCL: usuaris, rols i privilegis — MP0484</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+  <style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:#f7f5f0; --card:#ffffff; --ink:#1c1917; --ink-2:#57534e; --ink-3:#a8a29e;
+  --border:#e7e5e4; --accent:#9a3412; --accent-mid:#c2410c; --accent-bg:#fff7ed; --accent-bdr:#fed7aa;
+  --blue:#1e40af; --blue-bg:#eff6ff; --blue-bdr:#bfdbfe;
+  --green:#166534; --green-bg:#f0fdf4; --green-bdr:#bbf7d0;
+  --red:#991b1b; --red-bg:#fef2f2; --red-bdr:#fecaca;
+  --code-bg:#1e293b; --code-text:#e2e8f0; --r:10px; --r-sm:6px;
+}
+body { font-family:'DM Sans',system-ui,sans-serif; background:var(--bg); color:var(--ink); line-height:1.7; font-size:16px; }
+.merce-top { height:5px; background:linear-gradient(90deg,#9a3412 0%,#c2410c 50%,#9a3412 100%); }
+.site-head { background:var(--card); border-bottom:1px solid var(--border); padding:0 24px; }
+.head-inner { max-width:900px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; height:56px; }
+.brand { text-decoration:none; display:flex; flex-direction:column; }
+.brand-mark { font-family:'DM Serif Display',serif; font-size:1.1rem; color:var(--ink); }
+.brand-sub { font-size:11px; color:var(--ink-3); letter-spacing:.04em; }
+.head-course { font-size:13px; color:var(--ink-2); }
+.wrap { max-width:900px; margin:0 auto; padding:24px 24px 80px; }
+.sol-header { margin-bottom:36px; padding-bottom:24px; border-bottom:1.5px solid var(--border); }
+.sol-title { font-family:'DM Serif Display',Georgia,serif; font-size:2rem; margin-bottom:6px; }
+.sol-sub { font-size:14px; color:var(--ink-2); margin-bottom:14px; }
+.badge { font-size:11px; font-weight:600; padding:3px 11px; border-radius:20px; letter-spacing:.05em; text-transform:uppercase; display:inline-block; }
+.b-sol { background:#1e40af; color:#fff; }
+.back-link { display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:var(--accent); text-decoration:none; padding:7px 14px; border:1.5px solid var(--accent-bdr); border-radius:var(--r-sm); background:var(--accent-bg); transition:background .12s; }
+.back-link:hover { background:var(--accent-mid); color:#fff; border-color:var(--accent-mid); }
+.exercise { margin-bottom:32px; padding-bottom:32px; border-bottom:1px solid var(--border); scroll-margin-top:20px; }
+.exercise:last-child { margin-bottom:0; padding-bottom:0; border-bottom:none; }
+.ex-head { display:flex; align-items:flex-start; gap:12px; margin-bottom:12px; }
+.ex-num { min-width:30px; height:30px; background:var(--accent-mid); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600; flex-shrink:0; }
+.ex-name { font-weight:600; font-size:15px; color:var(--ink); }
+.ex-enunciat { font-size:14px; color:var(--ink); margin-bottom:14px; line-height:1.6; }
+.ex-enunciat code { font-family:'JetBrains Mono',monospace; font-size:12px; background:var(--accent-bg); padding:1px 6px; border-radius:3px; color:var(--accent); }
+.ri-btn { display:inline-flex; align-items:center; gap:6px; padding:6px 15px; border:1.5px solid var(--accent-bdr); border-radius:var(--r-sm); background:var(--accent-bg); color:var(--accent); cursor:pointer; font-size:12px; font-family:'DM Sans',sans-serif; font-weight:600; transition:background .12s,color .12s,border-color .12s; }
+.ri-btn:hover { background:var(--accent-mid); color:#fff; border-color:var(--accent-mid); }
+.ri-ans { display:none; margin-top:10px; padding:16px 18px; background:var(--accent-bg); border-radius:var(--r-sm); }
+.ri-ans.show { display:block; }
+.ri-ans-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--accent-mid); margin-bottom:8px; }
+.ri-note { font-size:13px; color:var(--ink-2); margin-top:10px; line-height:1.55; }
+.sql-out { font-family:'JetBrains Mono',monospace; font-size:13px; background:var(--code-bg); color:var(--code-text); padding:16px 20px; border-radius:var(--r-sm); line-height:1.8; white-space:pre; display:block; overflow-x:auto; }
+.site-foot { border-top:1px solid var(--border); padding:20px 24px; margin-top:48px; }
+.foot-inner { max-width:900px; margin:0 auto; display:flex; justify-content:space-between; font-size:12px; color:var(--ink-3); flex-wrap:wrap; gap:8px; }
+.kw { color:#fbbf24; font-weight:500; }
+.fn { color:#a78bfa; }
+.str { color:#4ade80; }
+.num { color:#f472b6; }
+.cmt { color:#64748b; font-style:italic; }
+.sec-title { font-family:'DM Serif Display',serif; font-size:1.3rem; color:var(--ink); margin:8px 0 20px; padding-bottom:10px; border-bottom:1.5px solid var(--border); }
+.exercise + .sec-title { margin-top:40px; }
+.ri-text { font-size:14px; color:var(--ink); line-height:1.65; background:var(--card); border:1px solid var(--accent-bdr); border-radius:var(--r-sm); padding:14px 18px; }
+.ri-note code, .ri-text code { font-family:'JetBrains Mono',monospace; font-size:12px; }
+</style>
+</head>
+<body>
+<div class="merce-top"></div>
+<header class="site-head">
+  <div class="head-inner">
+    <a class="brand" href="M0484_Solucions.html"><span class="brand-mark">La Mercè</span><span class="brand-sub">Formació Professional</span></a>
+    <div class="head-course">MP0484 · Bases de dades · DAW</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="sol-header">
+    <div style="margin-bottom:14px">
+      <a class="back-link" href="AEA2_DDL_DML_DCL_solucions.html">&#8592; Tornar a l'índex de l'AEA2</a>
+    </div>
+    <span class="badge b-sol">SOLUCIONS</span>
+    <h1 class="sol-title" style="margin-top:10px">Exercicis — Llenguatge de control de dades</h1>
+    <p class="sol-sub">DCL · usuaris · rols · privilegis de sistema i d'objecte · GRANT · REVOKE · diccionari de dades · Oracle</p>
+  </div>
+  <div id="ex-body"></div>
+</div>
+
+<footer class="site-foot">
+  <div class="foot-inner">
+    <span>Institut La Mercè · Formació Professional</span>
+    <span>Cicle DAW · MP0484 Bases de dades · Curs 2025&#8211;2026</span>
+  </div>
+</footer>
+
+<script>
+
+function cSQL(t){
+  t=t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  t=t.replace(/(--[^\n]*)/g,'<span class="cmt">$1</span>');
+  t=t.replace(/('[^']*')/g,'<span class="str">$1</span>');
+  t=t.replace(/\b(\d+\.?\d*)\b/g,'<span class="num">$1</span>');
+  t=t.replace(/\b(SELECT|FROM|WHERE|AND|OR|NOT|IN|LIKE|BETWEEN|IS|NULL|ORDER\s+BY|GROUP\s+BY|HAVING|DISTINCT|AS|ASC|DESC|CASE|WHEN|THEN|ELSE|END|JOIN|INNER\s+JOIN|NATURAL\s+JOIN|LEFT\s+OUTER\s+JOIN|LEFT\s+JOIN|RIGHT\s+OUTER\s+JOIN|FULL\s+OUTER\s+JOIN|ON|USING|UNION|UNION\s+ALL|INTERSECT|MINUS|EXISTS|NOT\s+EXISTS|ANY|ALL|NOT\s+IN|UNDEFINE|CREATE|ALTER|DROP|USER|IDENTIFIED\s+BY|ROLE|GRANT|REVOKE|TO|WITH\s+ADMIN\s+OPTION|WITH\s+GRANT\s+OPTION|SESSION|TABLE|VIEW|SEQUENCE|CONNECT|ACCOUNT\s+LOCK|ACCOUNT\s+UNLOCK|CASCADE|PRIMARY\s+KEY|INSERT|UPDATE)\b/gi,'<span class="kw">$1</span>');
+  t=t.replace(/\b(COUNT|SUM|AVG|MAX|MIN|ROUND|TRUNC|NVL|TO_CHAR|TO_NUMBER|TO_DATE|SYSDATE|DECODE|LOWER|UPPER|MONTHS_BETWEEN|NUMBER|VARCHAR2)\b/gi,'<span class="fn">$1</span>');
+  return t;
+}
+function reveal(btn,id){
+  document.getElementById(id).classList.add('show');
+  btn.style.display='none';
+}
+function openFromHash(){
+  var hash=location.hash.slice(1);
+  if(!hash) return;
+  var target=document.getElementById(hash);
+  if(!target) return;
+  var btn=target.querySelector('.ri-btn');
+  var ans=target.querySelector('.ri-ans');
+  if(btn && ans){ ans.classList.add('show'); btn.style.display='none'; }
+  setTimeout(function(){ target.scrollIntoView({behavior:'smooth',block:'start'}); },150);
+}
+window.addEventListener('load', openFromHash);
+window.addEventListener('hashchange', openFromHash);
+
+
+var EXDATA = [
+  {sec:"Activitat 1 · Creació d'usuaris",
+   n:1,
+   txt:"Crea els usuaris <code>user1</code>, <code>user2</code> i <code>user3</code> amb les contrasenyes <code>password1</code>, <code>password2</code> i <code>password3</code>, respectivament.",
+   sol:"CREATE USER user1 IDENTIFIED BY password1;\nCREATE USER user2 IDENTIFIED BY password2;\nCREATE USER user3 IDENTIFIED BY password3;"},
+  {sec:"Activitat 2 · Creació de rols",
+   n:2,
+   txt:"Crea els rols <code>role_admin</code> i <code>role_readonly</code>.",
+   sol:"CREATE ROLE role_admin;\nCREATE ROLE role_readonly;"},
+  {sec:"Activitat 2 · Creació de rols",
+   n:3,
+   txt:"Explica breument la diferència entre rols i privilegis d'objecte i com s'utilitzen en la seguretat de la base de dades.",
+   text:"Els rols són agrupacions de privilegis que permeten administrar els permisos de manera més fàcil, en lloc de concedir-los un a un a cada usuari. Els privilegis d'objecte, en canvi, permeten controlar l'accés concret a objectes com taules, vistes, procediments, etc."},
+  {sec:"Activitat 3 · Assignació de privilegis de sistema",
+   n:4,
+   txt:"Assigna el privilegi <code>CREATE SESSION</code> a <code>user1</code>, <code>user2</code> i <code>user3</code> perquè es puguin connectar a la base de dades.",
+   sol:"GRANT CREATE SESSION TO user1, user2, user3;"},
+  {sec:"Activitat 3 · Assignació de privilegis de sistema",
+   n:5,
+   txt:"Assigna els privilegis <code>CREATE TABLE</code>, <code>CREATE VIEW</code> i <code>CREATE SEQUENCE</code> al rol <code>role_admin</code>.",
+   sol:"GRANT CREATE TABLE, CREATE VIEW, CREATE SEQUENCE TO role_admin;"},
+  {sec:"Activitat 4 · Atorgar privilegis de sistema amb capacitat de propagació",
+   n:6,
+   txt:"Assigna el rol <code>role_admin</code> a <code>user1</code>.",
+   sol:"GRANT role_admin TO user1;"},
+  {sec:"Activitat 4 · Atorgar privilegis de sistema amb capacitat de propagació",
+   n:7,
+   txt:"Atorga el privilegi <code>CREATE SESSION</code> a <code>user2</code> amb l'opció de propagar-lo a altres usuaris.",
+   sol:"GRANT CREATE SESSION TO user2 WITH ADMIN OPTION;",
+   note:"<code>WITH ADMIN OPTION</code> és l'opció de propagació dels privilegis de sistema (i dels rols)."},
+  {sec:"Activitat 4 · Atorgar privilegis de sistema amb capacitat de propagació",
+   n:8,
+   txt:"Inicia sessió com a <code>user2</code> i concedeix el privilegi <code>CREATE SESSION</code> a <code>user3</code>.",
+   sol:"CONNECT user2/password2;\n\nGRANT CREATE SESSION TO user3;"},
+  {sec:"Activitat 4 · Atorgar privilegis de sistema amb capacitat de propagació",
+   n:9,
+   txt:"Comprova els privilegis de sistema concedits a <code>user3</code> amb la vista <code>DBA_SYS_PRIVS</code>.",
+   sol:"SELECT *\nFROM   DBA_SYS_PRIVS\nWHERE  GRANTEE = 'USER3';",
+   note:"Al diccionari de dades els noms d'usuari es guarden en majúscules: per això cal escriure <code>'USER3'</code>."},
+  {sec:"Activitat 4 · Atorgar privilegis de sistema amb capacitat de propagació",
+   n:10,
+   txt:"Revoca el privilegi <code>CREATE SESSION</code> de <code>user2</code> i observa què passa amb <code>user3</code>.",
+   sol:"REVOKE CREATE SESSION FROM user2;",
+   note:"<code>user3</code> no es veu afectat: conserva el privilegi."},
+  {sec:"Activitat 4 · Atorgar privilegis de sistema amb capacitat de propagació",
+   n:11,
+   txt:"Comprova si <code>user3</code> encara té el privilegi <code>CREATE SESSION</code>.",
+   sol:"SELECT *\nFROM   DBA_SYS_PRIVS\nWHERE  GRANTEE = 'USER3';",
+   note:"La consulta encara retorna la fila de <code>CREATE SESSION</code>: <code>user3</code> el conserva."},
+  {sec:"Activitat 4 · Atorgar privilegis de sistema amb capacitat de propagació",
+   n:12,
+   txt:"Explica per què <code>user3</code> no perd el privilegi <code>CREATE SESSION</code> quan es revoca de <code>user2</code>.",
+   text:"La revocació dels privilegis de sistema concedits amb <code>WITH ADMIN OPTION</code> no es propaga en cascada. Quan es revoca el privilegi a <code>user2</code>, els usuaris a qui <code>user2</code> l'havia concedit el conserven. A més, <code>user3</code> ja tenia <code>CREATE SESSION</code> des de l'exercici 4. En canvi, la revocació dels privilegis d'objecte concedits amb <code>WITH GRANT OPTION</code> sí que es propaga en cascada (activitat 7)."},
+  {sec:"Activitat 5 · Assignació de privilegis d'objecte",
+   n:13,
+   txt:"Crea una taula <code>employee</code> a l'esquema de <code>user1</code> i concedeix el privilegi <code>SELECT</code> a <code>user2</code> i <code>user3</code>. Connecta't com a <code>user1</code> i crea la taula; després connecta't com a <code>system</code> i concedeix el privilegi.",
+   sol:"CONNECT user1/password1;\n\nCREATE TABLE employee (\n  emp_id   NUMBER PRIMARY KEY,\n  emp_name VARCHAR2(50),\n  address  VARCHAR2(25),\n  salary   NUMBER);\n\nCONNECT system;\n\nGRANT SELECT ON user1.employee TO user2, user3;",
+   note:"<code>user1</code> pot crear la taula perquè té <code>CREATE TABLE</code> a través del rol <code>role_admin</code>. Com que la taula és d'un altre esquema, cal posar el prefix <code>user1.</code> davant del nom."},
+  {sec:"Activitat 5 · Assignació de privilegis d'objecte",
+   n:14,
+   txt:"Assigna el privilegi <code>INSERT</code> sobre la taula <code>employee</code> al rol <code>role_admin</code> i concedeix aquest rol a <code>user3</code>.",
+   sol:"GRANT INSERT ON user1.employee TO role_admin;\nGRANT role_admin TO user3;"},
+  {sec:"Activitat 5 · Assignació de privilegis d'objecte",
+   n:15,
+   txt:"Atorga a <code>user2</code> el privilegi <code>SELECT</code> només sobre la columna <code>salary</code> de la taula <code>employee</code>.",
+   sol:"GRANT SELECT (salary) ON user1.employee TO user2;",
+   note:"Oracle no permet concedir <code>SELECT</code> per columnes: dona l'error <em>ORA-00969: missing ON keyword</em>. Només es poden concedir per columnes <code>INSERT</code>, <code>UPDATE</code> i <code>REFERENCES</code>. Per limitar les columnes visibles cal crear una vista, com a l'exercici 25."},
+  {sec:"Activitat 5 · Assignació de privilegis d'objecte",
+   n:16,
+   txt:"Atorga a <code>user3</code> el privilegi <code>UPDATE</code> només sobre la columna <code>address</code> de la taula <code>employee</code>.",
+   sol:"GRANT UPDATE (address) ON user1.employee TO user3;"},
+  {sec:"Activitat 5 · Assignació de privilegis d'objecte",
+   n:17,
+   txt:"Comprova els privilegis concedits sobre la taula <code>employee</code>, incloent-hi les columnes concretes, amb la vista <code>DBA_TAB_PRIVS</code>.",
+   sol:"SELECT GRANTEE, PRIVILEGE\nFROM   DBA_TAB_PRIVS\nWHERE  TABLE_NAME = 'EMPLOYEE';\n\nSELECT GRANTEE, PRIVILEGE, COLUMN_NAME\nFROM   DBA_COL_PRIVS\nWHERE  TABLE_NAME = 'EMPLOYEE';",
+   note:"<code>DBA_TAB_PRIVS</code> no té la columna <code>COLUMN_NAME</code>: els privilegis concedits per columnes es consulten a <code>DBA_COL_PRIVS</code>."},
+  {sec:"Activitat 6 · Atorgar el privilegi de donar un privilegi",
+   n:18,
+   txt:"Atorga a <code>user2</code> el privilegi <code>SELECT</code> sobre la taula <code>employee</code> amb l'opció de concedir-lo a altres usuaris.",
+   sol:"GRANT SELECT ON user1.employee TO user2 WITH GRANT OPTION;",
+   note:"<code>WITH GRANT OPTION</code> és l'opció de propagació dels privilegis d'objecte."},
+  {sec:"Activitat 6 · Atorgar el privilegi de donar un privilegi",
+   n:19,
+   txt:"Inicia sessió com a <code>user2</code> i concedeix el privilegi <code>SELECT</code> sobre la taula <code>employee</code> a <code>user3</code>.",
+   sol:"CONNECT user2/password2;\n\nGRANT SELECT ON user1.employee TO user3;"},
+  {sec:"Activitat 6 · Atorgar el privilegi de donar un privilegi",
+   n:20,
+   txt:"Comprova els privilegis de <code>user3</code> sobre la taula <code>employee</code> amb el diccionari de dades.",
+   sol:"SELECT *\nFROM   DBA_TAB_PRIVS\nWHERE  GRANTEE = 'USER3';",
+   note:"La columna <code>GRANTOR</code> indica qui ha concedit cada privilegi: ara <code>user3</code> té <code>SELECT</code> dues vegades, una concedida per <code>SYSTEM</code> (exercici 13) i una per <code>USER2</code>."},
+  {sec:"Activitat 7 · Revocació d'un privilegi amb efectes propagats",
+   n:21,
+   txt:"Revoca el privilegi <code>SELECT</code> sobre la taula <code>employee</code> a <code>user2</code> i observa què passa amb <code>user3</code>.",
+   sol:"REVOKE SELECT ON user1.employee FROM user2;",
+   note:"Es revoca en cascada el <code>SELECT</code> que <code>user2</code> havia concedit a <code>user3</code>."},
+  {sec:"Activitat 7 · Revocació d'un privilegi amb efectes propagats",
+   n:22,
+   txt:"Comprova si <code>user3</code> encara pot accedir a la taula <code>employee</code>.",
+   sol:"SELECT *\nFROM   DBA_TAB_PRIVS\nWHERE  GRANTEE = 'USER3';",
+   note:"Ha desaparegut la fila amb <code>GRANTOR = USER2</code>. Es manté la de <code>SYSTEM</code> (exercici 13), de manera que <code>user3</code> encara pot consultar la taula."},
+  {sec:"Activitat 7 · Revocació d'un privilegi amb efectes propagats",
+   n:23,
+   txt:"Explica per què <code>user3</code> perd el privilegi <code>SELECT</code> que li havia concedit <code>user2</code> quan es revoca de <code>user2</code>.",
+   text:"Quan es revoca un privilegi d'objecte a un usuari que l'ha propagat amb <code>WITH GRANT OPTION</code>, tots els usuaris que l'han rebut d'aquest usuari també el perden automàticament (revocació en cascada). Només es revoquen les concessions fetes per <code>user2</code>: la que <code>user3</code> va rebre directament de <code>SYSTEM</code> a l'exercici 13 es manté."},
+  {sec:"Activitat 8 · Assignació de privilegis a rols i usuaris",
+   n:24,
+   txt:"Concedeix el rol <code>role_readonly</code> a <code>user2</code> i assigna al rol els privilegis <code>SELECT</code> i <code>UPDATE</code> sobre la taula <code>employee</code>.",
+   sol:"GRANT SELECT, UPDATE ON user1.employee TO role_readonly;\nGRANT role_readonly TO user2;"},
+  {sec:"Activitat 8 · Assignació de privilegis a rols i usuaris",
+   n:25,
+   txt:"Crea una vista <code>view_employee_salary</code> a l'esquema de <code>user1</code> que mostri només les columnes <code>emp_id</code> i <code>salary</code> de la taula <code>employee</code>. Concedeix el privilegi <code>SELECT</code> sobre aquesta vista a <code>user3</code>.",
+   sol:"CREATE VIEW user1.view_employee_salary AS\n  SELECT emp_id, salary\n  FROM   user1.employee;\n\nGRANT SELECT ON user1.view_employee_salary TO user3;",
+   note:"Una vista és la manera de donar accés de lectura només a algunes columnes d'una taula."},
+  {sec:"Activitat 9 · Modificació d'usuaris i rols",
+   n:26,
+   txt:"Canvia la contrasenya de <code>user1</code> a <code>newpassword1</code> i afegeix el privilegi <code>DROP ANY TABLE</code> al rol <code>role_admin</code>.",
+   sol:"ALTER USER user1 IDENTIFIED BY newpassword1;\nGRANT DROP ANY TABLE TO role_admin;",
+   note:"<code>DROP TABLE</code> no és un privilegi de sistema: <code>GRANT DROP TABLE</code> dona l'error <em>ORA-00990: missing or invalid privilege</em>. El privilegi de sistema és <code>DROP ANY TABLE</code>. Per esborrar les taules del propi esquema no cal cap privilegi."},
+  {sec:"Activitat 10 · Revocació de privilegis a usuaris i rols",
+   n:27,
+   txt:"Revoca al rol <code>role_readonly</code> el privilegi <code>UPDATE</code> sobre la taula <code>employee</code>.",
+   sol:"REVOKE UPDATE ON user1.employee FROM role_readonly;"},
+  {sec:"Activitat 10 · Revocació de privilegis a usuaris i rols",
+   n:28,
+   txt:"Revoca el rol <code>role_admin</code> a <code>user3</code>.",
+   sol:"REVOKE role_admin FROM user3;"},
+  {sec:"Activitat 11 · Consultes sobre privilegis al diccionari de dades",
+   n:29,
+   txt:"Consulta el diccionari de dades per llistar tots els privilegis de sistema assignats a <code>user2</code>.",
+   sol:"SELECT *\nFROM   DBA_SYS_PRIVS\nWHERE  GRANTEE = 'USER2';"},
+  {sec:"Activitat 11 · Consultes sobre privilegis al diccionari de dades",
+   n:30,
+   txt:"Llista tots els privilegis d'objecte assignats al rol <code>role_admin</code>.",
+   sol:"SELECT *\nFROM   DBA_TAB_PRIVS\nWHERE  GRANTEE = 'ROLE_ADMIN';"},
+  {sec:"Activitat 11 · Consultes sobre privilegis al diccionari de dades",
+   n:31,
+   txt:"Llista tots els usuaris i rols que tenen el privilegi <code>SELECT</code> sobre la taula <code>employee</code>.",
+   sol:"SELECT *\nFROM   DBA_TAB_PRIVS\nWHERE  TABLE_NAME = 'EMPLOYEE'\nAND    PRIVILEGE  = 'SELECT';"},
+  {sec:"Activitat 12 · Bloqueig i desbloqueig d'usuaris",
+   n:32,
+   txt:"Bloqueja l'usuari <code>user1</code> perquè no es pugui connectar a la base de dades.",
+   sol:"ALTER USER user1 ACCOUNT LOCK;"},
+  {sec:"Activitat 12 · Bloqueig i desbloqueig d'usuaris",
+   n:33,
+   txt:"Comprova l'estat de l'usuari <code>user1</code> amb la vista <code>DBA_USERS</code>.",
+   sol:"SELECT USERNAME, ACCOUNT_STATUS\nFROM   DBA_USERS\nWHERE  USERNAME = 'USER1';"},
+  {sec:"Activitat 12 · Bloqueig i desbloqueig d'usuaris",
+   n:34,
+   txt:"Desbloqueja l'usuari <code>user1</code> perquè es pugui tornar a connectar.",
+   sol:"ALTER USER user1 ACCOUNT UNLOCK;"},
+  {sec:"Activitat 12 · Bloqueig i desbloqueig d'usuaris",
+   n:35,
+   txt:"Fes una consulta que llisti tots els usuaris bloquejats de la base de dades.",
+   sol:"SELECT USERNAME\nFROM   DBA_USERS\nWHERE  ACCOUNT_STATUS = 'LOCKED';"},
+  {sec:"Activitat 13 · Eliminació d'usuaris i rols",
+   n:36,
+   txt:"Elimina el rol <code>role_readonly</code> i els usuaris <code>user2</code> i <code>user3</code>.",
+   sol:"DROP ROLE role_readonly;\nDROP USER user2 CASCADE;\nDROP USER user3 CASCADE;",
+   note:"<code>CASCADE</code> esborra també tots els objectes de l'esquema de l'usuari."},
+  {sec:"Activitat 13 · Eliminació d'usuaris i rols",
+   n:37,
+   txt:"Elimina la taula <code>employee</code> i la vista <code>view_employee_salary</code> de l'esquema de <code>user1</code>. Connecta't com a <code>user1</code>.",
+   sol:"CONNECT user1/newpassword1;\n\nDROP VIEW view_employee_salary;\nDROP TABLE employee;"}
+];
+
+var TOPIC = 'aea2t3';
+var lastSec = null;
+
+EXDATA.forEach(function(ex) {
+  var c = document.getElementById('ex-body');
+  if (ex.sec !== lastSec) {
+    var h = document.createElement('h2');
+    h.className = 'sec-title';
+    h.textContent = ex.sec;
+    c.appendChild(h);
+    lastSec = ex.sec;
+  }
+  var div = document.createElement('div');
+  div.className = 'exercise';
+  div.id = TOPIC + '-ex' + ex.n;
+  var note = ex.note ? '<div class="ri-note">'+ex.note+'</div>' : '';
+  var ansId = 'ans_' + TOPIC + '_' + ex.n;
+  var sqlId = 'sql_' + TOPIC + '_' + ex.n;
+  div.innerHTML =
+    '<div class="ex-head">' +
+      '<div class="ex-num">' + ex.n + '</div>' +
+      '<div><div class="ex-name">Exercici ' + ex.n + '</div></div>' +
+    '</div>' +
+    '<div class="ex-enunciat">' + ex.txt + '</div>' +
+    '<button class="ri-btn" onclick="reveal(this,\'' + ansId + '\')">&#9654; Veure soluci&#243;</button>' +
+    '<div class="ri-ans" id="' + ansId + '">' +
+      '<div class="ri-ans-label">Soluci&#243;</div>' +
+      (ex.sol ? '<code class="sql-out" id="' + sqlId + '"></code>' : '<div class="ri-text">' + ex.text + '</div>') +
+      note +
+    '</div>';
+  c.appendChild(div);
+  var sqlEl = document.getElementById(sqlId);
+  if (sqlEl) sqlEl.innerHTML = cSQL(ex.sol);
+});
+</script>
+</body>
+</html>
