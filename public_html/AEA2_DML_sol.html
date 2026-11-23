@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solucions · DML: manipulació de dades — MP0484</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+  <style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:#f7f5f0; --card:#ffffff; --ink:#1c1917; --ink-2:#57534e; --ink-3:#a8a29e;
+  --border:#e7e5e4; --accent:#9a3412; --accent-mid:#c2410c; --accent-bg:#fff7ed; --accent-bdr:#fed7aa;
+  --blue:#1e40af; --blue-bg:#eff6ff; --blue-bdr:#bfdbfe;
+  --green:#166534; --green-bg:#f0fdf4; --green-bdr:#bbf7d0;
+  --red:#991b1b; --red-bg:#fef2f2; --red-bdr:#fecaca;
+  --code-bg:#1e293b; --code-text:#e2e8f0; --r:10px; --r-sm:6px;
+}
+body { font-family:'DM Sans',system-ui,sans-serif; background:var(--bg); color:var(--ink); line-height:1.7; font-size:16px; }
+.merce-top { height:5px; background:linear-gradient(90deg,#9a3412 0%,#c2410c 50%,#9a3412 100%); }
+.site-head { background:var(--card); border-bottom:1px solid var(--border); padding:0 24px; }
+.head-inner { max-width:900px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; height:56px; }
+.brand { text-decoration:none; display:flex; flex-direction:column; }
+.brand-mark { font-family:'DM Serif Display',serif; font-size:1.1rem; color:var(--ink); }
+.brand-sub { font-size:11px; color:var(--ink-3); letter-spacing:.04em; }
+.head-course { font-size:13px; color:var(--ink-2); }
+.wrap { max-width:900px; margin:0 auto; padding:24px 24px 80px; }
+.sol-header { margin-bottom:36px; padding-bottom:24px; border-bottom:1.5px solid var(--border); }
+.sol-title { font-family:'DM Serif Display',Georgia,serif; font-size:2rem; margin-bottom:6px; }
+.sol-sub { font-size:14px; color:var(--ink-2); margin-bottom:14px; }
+.badge { font-size:11px; font-weight:600; padding:3px 11px; border-radius:20px; letter-spacing:.05em; text-transform:uppercase; display:inline-block; }
+.b-sol { background:#1e40af; color:#fff; }
+.back-link { display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:var(--accent); text-decoration:none; padding:7px 14px; border:1.5px solid var(--accent-bdr); border-radius:var(--r-sm); background:var(--accent-bg); transition:background .12s; }
+.back-link:hover { background:var(--accent-mid); color:#fff; border-color:var(--accent-mid); }
+.exercise { margin-bottom:32px; padding-bottom:32px; border-bottom:1px solid var(--border); scroll-margin-top:20px; }
+.exercise:last-child { margin-bottom:0; padding-bottom:0; border-bottom:none; }
+.ex-head { display:flex; align-items:flex-start; gap:12px; margin-bottom:12px; }
+.ex-num { min-width:30px; height:30px; background:var(--accent-mid); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600; flex-shrink:0; }
+.ex-name { font-weight:600; font-size:15px; color:var(--ink); }
+.ex-enunciat { font-size:14px; color:var(--ink); margin-bottom:14px; line-height:1.6; }
+.ex-enunciat code { font-family:'JetBrains Mono',monospace; font-size:12px; background:var(--accent-bg); padding:1px 6px; border-radius:3px; color:var(--accent); }
+.ri-btn { display:inline-flex; align-items:center; gap:6px; padding:6px 15px; border:1.5px solid var(--accent-bdr); border-radius:var(--r-sm); background:var(--accent-bg); color:var(--accent); cursor:pointer; font-size:12px; font-family:'DM Sans',sans-serif; font-weight:600; transition:background .12s,color .12s,border-color .12s; }
+.ri-btn:hover { background:var(--accent-mid); color:#fff; border-color:var(--accent-mid); }
+.ri-ans { display:none; margin-top:10px; padding:16px 18px; background:var(--accent-bg); border-radius:var(--r-sm); }
+.ri-ans.show { display:block; }
+.ri-ans-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--accent-mid); margin-bottom:8px; }
+.ri-note { font-size:13px; color:var(--ink-2); margin-top:10px; line-height:1.55; }
+.sql-out { font-family:'JetBrains Mono',monospace; font-size:13px; background:var(--code-bg); color:var(--code-text); padding:16px 20px; border-radius:var(--r-sm); line-height:1.8; white-space:pre; display:block; overflow-x:auto; }
+.site-foot { border-top:1px solid var(--border); padding:20px 24px; margin-top:48px; }
+.foot-inner { max-width:900px; margin:0 auto; display:flex; justify-content:space-between; font-size:12px; color:var(--ink-3); flex-wrap:wrap; gap:8px; }
+.kw { color:#fbbf24; font-weight:500; }
+.fn { color:#a78bfa; }
+.str { color:#4ade80; }
+.num { color:#f472b6; }
+.cmt { color:#64748b; font-style:italic; }
+.sec-title { font-family:'DM Serif Display',serif; font-size:1.3rem; color:var(--ink); margin:8px 0 20px; padding-bottom:10px; border-bottom:1.5px solid var(--border); }
+.exercise + .sec-title { margin-top:40px; }
+.inst-wrap { overflow-x:auto; margin:8px 0 4px; }
+.inst { border-collapse:collapse; font-size:12.5px; background:var(--card); }
+.inst th, .inst td { border:1px solid var(--border); padding:4px 12px; text-align:left; white-space:nowrap; }
+.inst th { background:#f5f5f4; color:var(--ink-2); font-weight:600; }
+.inst td { font-family:'JetBrains Mono',monospace; }
+.ri-note code { font-family:'JetBrains Mono',monospace; font-size:12px; }
+</style>
+</head>
+<body>
+<div class="merce-top"></div>
+<header class="site-head">
+  <div class="head-inner">
+    <a class="brand" href="M0484_Solucions.html"><span class="brand-mark">La Mercè</span><span class="brand-sub">Formació Professional</span></a>
+    <div class="head-course">MP0484 · Bases de dades · DAW</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="sol-header">
+    <div style="margin-bottom:14px">
+      <a class="back-link" href="AEA2_DDL_DML_DCL_solucions.html">&#8592; Tornar a l'índex de l'AEA2</a>
+    </div>
+    <span class="badge b-sol">SOLUCIONS</span>
+    <h1 class="sol-title" style="margin-top:10px">Exercicis — Manipulació de dades</h1>
+    <p class="sol-sub">DML · INSERT · UPDATE · DELETE · variables de substitució · COMMIT · SAVEPOINT · ROLLBACK · Oracle</p>
+  </div>
+  <div id="ex-body"></div>
+</div>
+
+<footer class="site-foot">
+  <div class="foot-inner">
+    <span>Institut La Mercè · Formació Professional</span>
+    <span>Cicle DAW · MP0484 Bases de dades · Curs 2025&#8211;2026</span>
+  </div>
+</footer>
+
+<script>
+
+function cSQL(t){
+  t=t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  t=t.replace(/(--[^\n]*)/g,'<span class="cmt">$1</span>');
+  t=t.replace(/('[^']*')/g,'<span class="str">$1</span>');
+  t=t.replace(/\b(\d+\.?\d*)\b/g,'<span class="num">$1</span>');
+  t=t.replace(/\b(SELECT|FROM|WHERE|AND|OR|NOT|IN|LIKE|BETWEEN|IS|NULL|ORDER\s+BY|GROUP\s+BY|HAVING|DISTINCT|AS|ASC|DESC|CASE|WHEN|THEN|ELSE|END|JOIN|INNER\s+JOIN|NATURAL\s+JOIN|LEFT\s+OUTER\s+JOIN|LEFT\s+JOIN|RIGHT\s+OUTER\s+JOIN|FULL\s+OUTER\s+JOIN|ON|USING|UNION|UNION\s+ALL|INTERSECT|MINUS|EXISTS|NOT\s+EXISTS|ANY|ALL|NOT\s+IN|UNDEFINE|CREATE|TABLE|PRIMARY\s+KEY|DESCRIBE|INSERT|INTO|VALUES|UPDATE|SET|DELETE|COMMIT|SAVEPOINT|ROLLBACK|TO)\b/gi,'<span class="kw">$1</span>');
+  t=t.replace(/\b(COUNT|SUM|AVG|MAX|MIN|ROUND|TRUNC|NVL|TO_CHAR|TO_NUMBER|TO_DATE|SYSDATE|DECODE|LOWER|UPPER|MONTHS_BETWEEN|SUBSTR|NUMBER|VARCHAR2)\b/gi,'<span class="fn">$1</span>');
+  return t;
+}
+function reveal(btn,id){
+  document.getElementById(id).classList.add('show');
+  btn.style.display='none';
+}
+function openFromHash(){
+  var hash=location.hash.slice(1);
+  if(!hash) return;
+  var target=document.getElementById(hash);
+  if(!target) return;
+  var btn=target.querySelector('.ri-btn');
+  var ans=target.querySelector('.ri-ans');
+  if(btn && ans){ ans.classList.add('show'); btn.style.display='none'; }
+  setTimeout(function(){ target.scrollIntoView({behavior:'smooth',block:'start'}); },150);
+}
+window.addEventListener('load', openFromHash);
+window.addEventListener('hashchange', openFromHash);
+
+
+var EXDATA = [
+  {sec:"Inserir dades a la taula MY_EMPLOYEE",
+   n:1,
+   txt:"Executeu la sentència següent per crear la taula <code>MY_EMPLOYEE</code>, que fareu servir en aquesta pràctica.",
+   sol:"CREATE TABLE my_employee (\n  id         NUMBER(6) PRIMARY KEY,\n  last_name  VARCHAR2(25),\n  first_name VARCHAR2(20),\n  userid     VARCHAR2(10),\n  salary     NUMBER(8,2));"},
+  {sec:"Inserir dades a la taula MY_EMPLOYEE",
+   n:2,
+   txt:"Descriviu l'estructura de la taula <code>MY_EMPLOYEE</code> per identificar els noms de les columnes.",
+   sol:"DESCRIBE my_employee"},
+  {sec:"Inserir dades a la taula MY_EMPLOYEE",
+   n:3,
+   txt:"Els apartats següents fan referència a les dades d'exemple d'aquesta taula:<div class=\"inst-wrap\"><table class=\"inst\"><tr><th>ID</th><th>LAST_NAME</th><th>FIRST_NAME</th><th>USERID</th><th>SALARY</th></tr><tr><td>1</td><td>Patel</td><td>Ralph</td><td>rpatel</td><td>895</td></tr><tr><td>2</td><td>Dancs</td><td>Betty</td><td>bdancs</td><td>860</td></tr><tr><td>3</td><td>Biri</td><td>Ben</td><td>bbiri</td><td>1100</td></tr><tr><td>4</td><td>Newman</td><td>Chad</td><td>cnewman</td><td>750</td></tr><tr><td>5</td><td>Ropeburn</td><td>Audry</td><td>aropebur</td><td>1550</td></tr></table></div><p style=\"margin-top:10px\">Creeu una sentència <code>INSERT</code> per afegir la primera fila de dades a la taula <code>MY_EMPLOYEE</code>. No poseu la llista de columnes a la clàusula <code>INSERT</code>.</p>",
+   sol:"INSERT INTO my_employee\nVALUES (1, 'Patel', 'Ralph', 'rpatel', 895);",
+   note:"Sense llista de columnes, cal donar un valor per a cada columna i en el mateix ordre que a la definició de la taula."},
+  {sec:"Inserir dades a la taula MY_EMPLOYEE",
+   n:4,
+   txt:"Ompliu la taula <code>MY_EMPLOYEE</code> amb la segona fila de les dades d'exemple. Aquesta vegada, poseu explícitament la llista de columnes a la clàusula <code>INSERT</code>.",
+   sol:"INSERT INTO my_employee (id, last_name, first_name, userid, salary)\nVALUES (2, 'Dancs', 'Betty', 'bdancs', 860);"},
+  {sec:"Inserir dades a la taula MY_EMPLOYEE",
+   n:5,
+   txt:"Confirmeu les insercions a la taula.",
+   sol:"COMMIT;\n\nSELECT *\nFROM   my_employee;",
+   note:"<code>COMMIT</code> fa permanents els canvis de la transacció actual."},
+  {sec:"Inserir dades a la taula MY_EMPLOYEE",
+   n:6,
+   txt:"Escriviu una sentència <code>INSERT</code> en un script reutilitzable per carregar la resta de files a la taula <code>MY_EMPLOYEE</code>. L'script ha de demanar totes les columnes (<code>ID</code>, <code>LAST_NAME</code>, <code>FIRST_NAME</code>, <code>USERID</code> i <code>SALARY</code>). Deseu l'script en un fitxer anomenat <code>lab_09_06.sql</code>.",
+   sol:"INSERT INTO my_employee\nVALUES (&p_id, '&p_last_name', '&p_first_name', '&p_userid', &p_salary);",
+   note:"Les variables de substitució (<code>&amp;nom</code>) fan que l'eina demani el valor cada vegada que s'executa la sentència. Les de text van entre cometes simples."},
+  {sec:"Inserir dades a la taula MY_EMPLOYEE",
+   n:7,
+   txt:"Ompliu la taula amb les dues files següents de les dades d'exemple (la 3 i la 4) executant la sentència <code>INSERT</code> de l'script que heu creat.",
+   sol:"INSERT INTO my_employee\nVALUES (&p_id, '&p_last_name', '&p_first_name', '&p_userid', &p_salary);",
+   note:"Executeu l'script dues vegades i introduïu els valors de cada fila quan us els demani."},
+  {sec:"Inserir dades a la taula MY_EMPLOYEE",
+   n:8,
+   txt:"Visualitzeu tots els empleats i comproveu que s'han introduït correctament.",
+   sol:"SELECT *\nFROM   my_employee;"},
+  {sec:"Inserir dades a la taula MY_EMPLOYEE",
+   n:9,
+   txt:"Confirmeu els canvis a la taula.",
+   sol:"COMMIT;"},
+  {sec:"Actualitzar i suprimir dades de la taula MY_EMPLOYEE",
+   n:10,
+   txt:"Canvieu el cognom de l'empleat 3 a <em>Drexler</em>.",
+   sol:"UPDATE my_employee\nSET    last_name = 'Drexler'\nWHERE  id = 3;"},
+  {sec:"Actualitzar i suprimir dades de la taula MY_EMPLOYEE",
+   n:11,
+   txt:"Canvieu el salari a 1000 per a tots els empleats amb un salari inferior a 900.",
+   sol:"UPDATE my_employee\nSET    salary = 1000\nWHERE  salary < 900;"},
+  {sec:"Actualitzar i suprimir dades de la taula MY_EMPLOYEE",
+   n:12,
+   txt:"Visualitzeu tots els empleats i comproveu que els canvis s'han fet correctament.",
+   sol:"SELECT *\nFROM   my_employee;"},
+  {sec:"Actualitzar i suprimir dades de la taula MY_EMPLOYEE",
+   n:13,
+   txt:"Suprimiu Betty Dancs de la taula <code>MY_EMPLOYEE</code>.",
+   sol:"DELETE\nFROM   my_employee\nWHERE  first_name = 'Betty'\nAND    last_name  = 'Dancs';",
+   note:"Sense la clàusula <code>WHERE</code>, el <code>DELETE</code> esborraria totes les files de la taula."},
+  {sec:"Actualitzar i suprimir dades de la taula MY_EMPLOYEE",
+   n:14,
+   txt:"Visualitzeu tots els empleats i comproveu que els canvis s'han fet correctament.",
+   sol:"SELECT *\nFROM   my_employee;"},
+  {sec:"Actualitzar i suprimir dades de la taula MY_EMPLOYEE",
+   n:15,
+   txt:"Confirmeu tots els canvis pendents.",
+   sol:"COMMIT;"},
+  {sec:"Controlar la transacció de dades de la taula MY_EMPLOYEE",
+   n:16,
+   txt:"Ompliu la taula amb l'última fila de les dades d'exemple (la 5) executant la sentència de l'script que heu creat a l'exercici 6.",
+   sol:"INSERT INTO my_employee\nVALUES (&p_id, '&p_last_name', '&p_first_name', '&p_userid', &p_salary);"},
+  {sec:"Controlar la transacció de dades de la taula MY_EMPLOYEE",
+   n:17,
+   txt:"Comproveu que les dades s'han introduït correctament.",
+   sol:"SELECT *\nFROM   my_employee;"},
+  {sec:"Controlar la transacció de dades de la taula MY_EMPLOYEE",
+   n:18,
+   txt:"Marqueu un punt intermedi en el processament de la transacció.",
+   sol:"SAVEPOINT step_17;"},
+  {sec:"Controlar la transacció de dades de la taula MY_EMPLOYEE",
+   n:19,
+   txt:"Suprimiu totes les files de la taula <code>MY_EMPLOYEE</code>.",
+   sol:"DELETE\nFROM   my_employee;"},
+  {sec:"Controlar la transacció de dades de la taula MY_EMPLOYEE",
+   n:20,
+   txt:"Verifiqueu que la taula és buida.",
+   sol:"SELECT *\nFROM   my_employee;"},
+  {sec:"Controlar la transacció de dades de la taula MY_EMPLOYEE",
+   n:21,
+   txt:"Descarteu l'operació <code>DELETE</code> més recent sense descartar l'operació <code>INSERT</code> anterior.",
+   sol:"ROLLBACK TO step_17;",
+   note:"<code>ROLLBACK TO</code> desfà només els canvis fets després del <code>SAVEPOINT</code>. Un <code>ROLLBACK</code> sense punt intermedi desfaria també l'<code>INSERT</code>."},
+  {sec:"Controlar la transacció de dades de la taula MY_EMPLOYEE",
+   n:22,
+   txt:"Comproveu que la fila nova és intacta.",
+   sol:"SELECT *\nFROM   my_employee;"},
+  {sec:"Controlar la transacció de dades de la taula MY_EMPLOYEE",
+   n:23,
+   txt:"Confirmeu els canvis.",
+   sol:"COMMIT;"},
+  {sec:"Exercici opcional",
+   n:24,
+   txt:"Modifiqueu l'script <code>lab_09_06.sql</code> perquè el <code>USERID</code> es generi automàticament concatenant la primera lletra del nom i els set primers caràcters del cognom. El <code>USERID</code> generat ha d'estar en minúscules. Per tant, l'script no ha de demanar el <code>USERID</code>. Deseu l'script en un fitxer anomenat <code>lab_09_24.sql</code>.",
+   sol:"SET ECHO OFF\nSET VERIFY OFF\n\nINSERT INTO my_employee\nVALUES (&p_id, '&&p_last_name', '&&p_first_name',\n        LOWER(SUBSTR('&p_first_name', 1, 1) ||\n              SUBSTR('&p_last_name', 1, 7)),\n        &p_salary);\n\nSET VERIFY ON\nSET ECHO ON\n\nUNDEFINE p_first_name\nUNDEFINE p_last_name",
+   note:"<code>&amp;&amp;</code> demana el valor només la primera vegada i el reutilitza a la resta de la sentència. <code>UNDEFINE</code> esborra les variables perquè la propera execució les torni a demanar."},
+  {sec:"Exercici opcional",
+   n:25,
+   txt:"Executeu l'script <code>lab_09_24.sql</code> per inserir el registre següent:<div class=\"inst-wrap\"><table class=\"inst\"><tr><th>ID</th><th>LAST_NAME</th><th>FIRST_NAME</th><th>USERID</th><th>SALARY</th></tr><tr><td>6</td><td>Anthony</td><td>Mark</td><td>manthony</td><td>1230</td></tr></table></div>",
+   sol:"@lab_09_24.sql",
+   note:"Quan us ho demani, introduïu els valors de la fila: el <code>USERID</code> no es demana."},
+  {sec:"Exercici opcional",
+   n:26,
+   txt:"Comproveu que s'ha afegit la fila nova amb el <code>USERID</code> correcte.",
+   sol:"SELECT *\nFROM   my_employee\nWHERE  id = 6;",
+   note:"El <code>USERID</code> ha de ser <code>manthony</code>."}
+];
+
+var TOPIC = 'aea2t4';
+var lastSec = null;
+
+EXDATA.forEach(function(ex) {
+  var c = document.getElementById('ex-body');
+  if (ex.sec !== lastSec) {
+    var h = document.createElement('h2');
+    h.className = 'sec-title';
+    h.textContent = ex.sec;
+    c.appendChild(h);
+    lastSec = ex.sec;
+  }
+  var div = document.createElement('div');
+  div.className = 'exercise';
+  div.id = TOPIC + '-ex' + ex.n;
+  var note = ex.note ? '<div class="ri-note">'+ex.note+'</div>' : '';
+  var ansId = 'ans_' + TOPIC + '_' + ex.n;
+  var sqlId = 'sql_' + TOPIC + '_' + ex.n;
+  div.innerHTML =
+    '<div class="ex-head">' +
+      '<div class="ex-num">' + ex.n + '</div>' +
+      '<div><div class="ex-name">Exercici ' + ex.n + '</div></div>' +
+    '</div>' +
+    '<div class="ex-enunciat">' + ex.txt + '</div>' +
+    '<button class="ri-btn" onclick="reveal(this,\'' + ansId + '\')">&#9654; Veure soluci&#243;</button>' +
+    '<div class="ri-ans" id="' + ansId + '">' +
+      '<div class="ri-ans-label">Soluci&#243;</div>' +
+      '<code class="sql-out" id="' + sqlId + '"></code>' +
+      note +
+    '</div>';
+  c.appendChild(div);
+  var sqlEl = document.getElementById(sqlId);
+  if (sqlEl) sqlEl.innerHTML = cSQL(ex.sol);
+});
+</script>
+</body>
+</html>
